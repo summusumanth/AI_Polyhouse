@@ -45,9 +45,13 @@ export class ApiError extends Error {
 async function request(path, { method = "GET", body, raw = false } = {}) {
   const token = tokenStore.get();
   const headers = {};
+<<<<<<< HEAD
   // FormData (a photo upload) sets its own multipart content type.
   const isForm = typeof FormData !== "undefined" && body instanceof FormData;
   if (body && !isForm) headers["Content-Type"] = "application/json";
+=======
+  if (body) headers["Content-Type"] = "application/json";
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   if (token) headers.Authorization = `Bearer ${token}`;
 
   let response;
@@ -55,7 +59,11 @@ async function request(path, { method = "GET", body, raw = false } = {}) {
     response = await fetch(`${BASE}/api${path}`, {
       method,
       headers,
+<<<<<<< HEAD
       body: body ? (isForm ? body : JSON.stringify(body)) : undefined,
+=======
+      body: body ? JSON.stringify(body) : undefined,
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     });
   } catch {
     throw new ApiError("Cannot reach the server. Is the API running?", 0);
@@ -78,9 +86,12 @@ async function request(path, { method = "GET", body, raw = false } = {}) {
   return payload;
 }
 
+<<<<<<< HEAD
 // Turns a server-relative path (/api/camera-feed/...) into a full URL.
 export const apiUrl = (path) => (/^https?:\/\//.test(path) ? path : `${BASE}${path}`);
 
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 export const api = {
   login: (body) => request("/auth/login", { method: "POST", body }),
   me: () => request("/auth/me"),
@@ -112,6 +123,7 @@ export const api = {
   latestPhenotypes: (facility) =>
     request(`/phenotypes/latest${facility ? `?facility=${facility}` : ""}`),
   addPhenotype: (id, body) => request(`/polyhouses/${id}/phenotypes`, { method: "POST", body }),
+<<<<<<< HEAD
   analysePhoto: (id, file) => {
     const form = new FormData();
     form.append("image", file);
@@ -121,6 +133,8 @@ export const api = {
     request(`/polyhouses/${id}/phenotypes/analyse`, { method: "POST", body: { camera } }),
 
   listCameras: (id) => request(`/polyhouses/${id}/cameras`),
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   network: () => request("/network"),
 };

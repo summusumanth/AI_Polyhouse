@@ -11,7 +11,11 @@ import {
   YAxis,
 } from "recharts";
 import { useTheme } from "../lib/theme";
+<<<<<<< HEAD
 import { ALL_TRAITS, GENOTYPE_COLORS, formatTrait, traitOrder } from "../lib/facility";
+=======
+import { GENOTYPE_COLORS, TRAITS, formatTrait } from "../lib/facility";
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 function useChartColors() {
   const { theme } = useTheme();
@@ -30,7 +34,11 @@ const shortDate = (v) =>
 
 function TraitTooltip({ active, payload, label, trait }) {
   if (!active || !payload?.length) return null;
+<<<<<<< HEAD
   const meta = ALL_TRAITS[trait];
+=======
+  const meta = TRAITS[trait];
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   return (
     <div className="chart-tooltip">
       <div className="faint" style={{ marginBottom: 6 }}>
@@ -98,6 +106,7 @@ export function GrowthCurves({ observations, trait, genotypes }) {
   );
 }
 
+<<<<<<< HEAD
 // Latest value per genotype, best first (lowest first for traits where low
 // is good, like canopy temperature).
 export function TraitRanking({ rows, trait }) {
@@ -107,6 +116,16 @@ export function TraitRanking({ rows, trait }) {
     .filter((r) => Number.isFinite(r[trait]))
     .sort(traitOrder(trait))
     .map((r) => ({ name: r.genotype, facility: r.facilityName, value: Number(r[trait].toFixed(meta.digits)) }));
+=======
+// Latest value per genotype, best first.
+export function TraitRanking({ rows, trait }) {
+  const colors = useChartColors();
+  const meta = TRAITS[trait];
+  const data = rows
+    .filter((r) => r[trait] !== null && r[trait] !== undefined)
+    .map((r) => ({ name: r.genotype, facility: r.facilityName, value: r[trait] }))
+    .sort((a, b) => b.value - a.value);
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   if (!data.length) {
     return <div className="empty faint">No values for this trait yet.</div>;

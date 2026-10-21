@@ -10,6 +10,7 @@ import {
   ToggleRight,
 } from "lucide-react";
 import { useAuth } from "../lib/auth";
+<<<<<<< HEAD
 import { PhenotypingArt, PolyhouseArt, SpeedBreedingArt } from "../components/art/FacilityArt";
 import { CountUp, Reveal, TiltCard } from "../components/ui";
 import { BrandLockup } from "../components/Brand";
@@ -21,6 +22,18 @@ const MOSAIC = [
     Art: SpeedBreedingArt,
     label: "Speed breeding",
     sub: "Wheat · 22 h light · fixed targets",
+=======
+import { BreedingArt, GrowChamberArt, PolyhouseArt } from "../components/art/FacilityArt";
+import { CountUp, Reveal, TiltCard } from "../components/ui";
+
+const MOSAIC = [
+  { Art: PolyhouseArt, label: "Polyhouse", sub: "Tomato hybrids", tone: "var(--accent)" },
+  { Art: GrowChamberArt, label: "Grow chamber", sub: "Rice drought screen", tone: "var(--cyan)" },
+  {
+    Art: BreedingArt,
+    label: "Speed breeding & Phenotyping",
+    sub: "Wheat · 22h light · 7 traits per line",
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     tone: "var(--violet)",
     wide: true,
   },
@@ -35,6 +48,7 @@ const ENVIRONMENTS = [
     points: ["Daily temperature and humidity swings", "Soil moisture and drip irrigation", "Fan, cooler and mister control"],
   },
   {
+<<<<<<< HEAD
     Art: SpeedBreedingArt,
     eyebrow: "Speed breeding",
     title: "Fixed targets and a 22-hour day, six generations a year",
@@ -51,13 +65,37 @@ const ENVIRONMENTS = [
     title: "Measure every line, keep the best",
     body: "RGB, thermal and multispectral cameras, a PAR sensor, a stem sensor and a scale record height, leaf count and area, leaf colour, canopy temperature, NDVI, stem thickness, flowering time and yield, so only the strongest lines go on.",
     points: ["Canopy cover and leaf colour from a photo", "Heat stress from canopy minus air temperature", "Growth rate and flowering time worked out for you"],
+=======
+    Art: GrowChamberArt,
+    eyebrow: "Grow chambers",
+    title: "Every variable held still but one",
+    body: "LED photoperiod, temperature, humidity and CO2 stay locked so a single treatment, such as withholding water, is the only thing that changes between lines.",
+    points: ["Square-wave LED photoperiod", "CO2 and climate setpoints", "Controlled stress treatments"],
+  },
+  {
+    Art: BreedingArt,
+    eyebrow: "Speed breeding & Phenotyping",
+    title: "Six generations a year, and the data to pick the best lines",
+    body: "Twenty-two hours of light at 22/17 °C pushes wheat from seed to seed in about nine weeks. Every generation is phenotyped (height, leaf area, NDVI, chlorophyll, biomass) so only the strongest lines go on to the next cycle.",
+    points: [
+      "22/2 photoperiod dial and generation progress",
+      "Growth curves per genotype",
+      "Trait rankings across every trial",
+    ],
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   },
 ];
 
 const PIPELINE = [
+<<<<<<< HEAD
   { icon: Cpu, title: "Sense", body: "The sensor board reads air, light, CO₂, root zone, water and leaf sensors.", code: "POST /api/device/readings" },
   { icon: Database, title: "Store", body: "The API validates the reading and saves it to MongoDB.", code: "sensor_info" },
   { icon: Server, title: "Decide", body: "The server compares it with the fixed targets and the light schedule.", code: "fans · heater · vents · lights · …" },
+=======
+  { icon: Cpu, title: "Sense", body: "The sensor board reads the DHT22 and the soil probe.", code: "POST /api/device/readings" },
+  { icon: Database, title: "Store", body: "The API validates the reading and saves it to MongoDB.", code: "sensor_info" },
+  { icon: Server, title: "Decide", body: "The server compares it with the targets set on the dashboard.", code: "fan · cooler · mister · irrigation" },
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   { icon: ToggleRight, title: "Act", body: "The motor board fetches that decision and switches its relays.", code: "GET /api/device/state/:id" },
   { icon: MonitorSmartphone, title: "Watch", body: "The dashboard shows the very same decision, live.", code: "/facility/:id" },
 ];
@@ -78,6 +116,7 @@ export default function Landing() {
     <div className="wrap">
       <section className="hero">
         <div>
+<<<<<<< HEAD
           <motion.div variants={fadeUp} initial="hidden" animate="show">
             <BrandLockup markSize={76} tagline={false} />
           </motion.div>
@@ -114,6 +153,23 @@ export default function Landing() {
           </motion.p>
 
           <motion.div className="hero-actions" variants={fadeUp} initial="hidden" animate="show" custom={5}>
+=======
+          <motion.span className="eyebrow" variants={fadeUp} initial="hidden" animate="show">
+            <span className="dot dot-live" /> Controlled-environment plant research
+          </motion.span>
+
+          <motion.h1 variants={fadeUp} initial="hidden" animate="show" custom={1}>
+            Grow, breed and <span className="hero-gradient">phenotype</span> from one control room.
+          </motion.h1>
+
+          <motion.p className="hero-lead" variants={fadeUp} initial="hidden" animate="show" custom={2}>
+            Polyhouses, grow chambers and speed breeding rooms report their climate every 20
+            seconds. Set targets, let the relays respond, and follow every genotype from sowing to
+            harvest.
+          </motion.p>
+
+          <motion.div className="hero-actions" variants={fadeUp} initial="hidden" animate="show" custom={3}>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             {user ? (
               <Link to="/dashboard" className="btn btn-primary">
                 Open the control room <ArrowRight size={17} />
@@ -125,17 +181,29 @@ export default function Landing() {
             )}
           </motion.div>
 
+<<<<<<< HEAD
           <motion.div className="hero-stats" variants={fadeUp} initial="hidden" animate="show" custom={6}>
+=======
+          <motion.div className="hero-stats" variants={fadeUp} initial="hidden" animate="show" custom={4}>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             <div className="hero-stat">
               <strong><CountUp to={3} /></strong>
               <span>facility types</span>
             </div>
             <div className="hero-stat">
+<<<<<<< HEAD
               <strong><CountUp to={13} /></strong>
               <span>sensor channels</span>
             </div>
             <div className="hero-stat">
               <strong><CountUp to={14} /></strong>
+=======
+              <strong><CountUp to={8} /></strong>
+              <span>sensor channels</span>
+            </div>
+            <div className="hero-stat">
+              <strong><CountUp to={7} /></strong>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
               <span>phenotypic traits</span>
             </div>
           </motion.div>
@@ -238,12 +306,21 @@ export default function Landing() {
             <span>daily photoperiod for wheat</span>
           </div>
           <div>
+<<<<<<< HEAD
             <strong><CountUp to={30} suffix="s" /></strong>
             <span>between sensor reports</span>
           </div>
           <div>
             <strong><CountUp to={9} /></strong>
             <span>actuators held to fixed targets</span>
+=======
+            <strong><CountUp to={20} suffix="s" /></strong>
+            <span>between sensor reports</span>
+          </div>
+          <div>
+            <strong><CountUp to={4} /></strong>
+            <span>relays driven per facility</span>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
           </div>
         </Reveal>
       </section>

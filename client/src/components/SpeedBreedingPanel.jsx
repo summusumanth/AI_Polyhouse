@@ -5,6 +5,7 @@ import { cycleProgress } from "../lib/facility";
 const R = 52;
 const C = 2 * Math.PI * R;
 
+<<<<<<< HEAD
 const toMinutes = (hhmm) => {
   const [h, m] = String(hhmm).split(":").map(Number);
   return h * 60 + m;
@@ -30,6 +31,23 @@ export function PhotoperiodRing({ lightHours = 22, schedule = null }) {
   return (
     <div className="photoperiod">
       <svg viewBox="0 0 140 140" className="photoperiod-svg" role="img" aria-label={`${hours} hours light from ${onAt}, ${darkHours} hours dark`}>
+=======
+// A 24-hour dial: the lit arc is the photoperiod, the needle is now.
+// Lights are assumed to switch off at midnight, which is how the seeded
+// speed breeding room and most 22/2 protocols are scheduled.
+export function PhotoperiodRing({ lightHours = 22 }) {
+  const darkHours = 24 - lightHours;
+  const now = new Date();
+  const hour = now.getHours() + now.getMinutes() / 60;
+  const lightsOn = hour >= darkHours;
+  const lit = (lightHours / 24) * C;
+  // Dark period runs 00:00 -> darkHours, so the lit arc starts there.
+  const startDeg = (darkHours / 24) * 360 - 90;
+
+  return (
+    <div className="photoperiod">
+      <svg viewBox="0 0 140 140" className="photoperiod-svg" role="img" aria-label={`${lightHours} hours light, ${darkHours} hours dark`}>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         <circle cx="70" cy="70" r={R} fill="none" className="photoperiod-track" strokeWidth="12" />
         <motion.circle
           cx="70"
@@ -47,7 +65,17 @@ export function PhotoperiodRing({ lightHours = 22, schedule = null }) {
         {[0, 6, 12, 18].map((h) => {
           const a = (h / 24) * 2 * Math.PI - Math.PI / 2;
           return (
+<<<<<<< HEAD
             <text key={h} x={70 + Math.cos(a) * 34} y={70 + Math.sin(a) * 34 + 3} textAnchor="middle" className="photoperiod-hour">
+=======
+            <text
+              key={h}
+              x={70 + Math.cos(a) * 34}
+              y={70 + Math.sin(a) * 34 + 3}
+              textAnchor="middle"
+              className="photoperiod-hour"
+            >
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
               {String(h).padStart(2, "0")}
             </text>
           );
@@ -72,6 +100,7 @@ export function PhotoperiodRing({ lightHours = 22, schedule = null }) {
           {lightsOn ? "Lights on" : "Dark period"}
         </span>
         <strong className="mono" style={{ fontSize: "1.4rem" }}>
+<<<<<<< HEAD
           {hours}/{darkHours}
         </strong>
         <span className="faint">hours light / dark</span>
@@ -79,6 +108,11 @@ export function PhotoperiodRing({ lightHours = 22, schedule = null }) {
           on {onAt}
           {offAt ? ` · off ${offAt}` : ""}
         </span>
+=======
+          {lightHours}/{darkHours}
+        </strong>
+        <span className="faint">hours light / dark</span>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       </div>
     </div>
   );

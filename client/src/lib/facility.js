@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {
   Activity,
   Camera,
@@ -27,6 +28,9 @@ import {
 } from "lucide-react";
 
 // ----------------------------------------------------------------- types
+=======
+import { Box, Warehouse, Zap } from "lucide-react";
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 export const FACILITY_TYPES = {
   polyhouse: {
@@ -36,11 +40,22 @@ export const FACILITY_TYPES = {
     tone: "var(--accent)",
     blurb: "Naturally lit, ventilated protected cultivation: temperature and irrigation control.",
   },
+<<<<<<< HEAD
+=======
+  grow_chamber: {
+    label: "Grow chamber",
+    plural: "Grow chambers",
+    icon: Box,
+    tone: "var(--cyan)",
+    blurb: "Fully controlled light, temperature, humidity and CO2 for repeatable experiments.",
+  },
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   speed_breeding: {
     label: "Speed breeding",
     plural: "Speed breeding",
     icon: Zap,
     tone: "var(--violet)",
+<<<<<<< HEAD
     blurb: "A sealed room held to fixed targets on a long photoperiod, to advance generations in weeks.",
   },
   phenotyping: {
@@ -49,6 +64,9 @@ export const FACILITY_TYPES = {
     icon: Microscope,
     tone: "var(--cyan)",
     blurb: "A measuring station: cameras and instruments that record plant traits. It controls nothing.",
+=======
+    blurb: "A 22-hour photoperiod that cycles a crop from seed to seed in weeks, not seasons.",
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   },
 };
 
@@ -56,6 +74,7 @@ export const FACILITY_TYPE_KEYS = Object.keys(FACILITY_TYPES);
 
 export const typeMeta = (type) => FACILITY_TYPES[type] || FACILITY_TYPES.polyhouse;
 
+<<<<<<< HEAD
 export const isControlled = (type) => type !== "phenotyping";
 
 // --------------------------------------------------------------- sensors
@@ -313,12 +332,31 @@ export const MEASUREMENT_MAP = [
   { trait: "Flowering time", method: "Camera + flowering detection", needs: ["rgb_camera"], keys: ["floweringDays"] },
   { trait: "Fruit / seed yield", method: "Camera and weighing scale", needs: ["rgb_camera", "weighing_scale"], keys: ["fruitCount", "yieldWeight"] },
 ];
+=======
+// Light and N-P-K are measured only in grow chambers and speed breeding rooms.
+// A polyhouse runs on temperature, humidity and soil moisture. The server
+// applies the same rule (server/src/lib/readings.js).
+export const measuresLightAndNutrients = (type) => (type || "polyhouse") !== "polyhouse";
+
+export const TRAITS = {
+  plantHeight: { label: "Plant height", unit: "cm", digits: 1 },
+  leafCount: { label: "Leaf count", unit: "", digits: 0 },
+  leafArea: { label: "Leaf area", unit: "cm²", digits: 0 },
+  canopyCover: { label: "Canopy cover", unit: "%", digits: 1 },
+  ndvi: { label: "NDVI", unit: "", digits: 2 },
+  spad: { label: "SPAD chlorophyll", unit: "", digits: 1 },
+  biomass: { label: "Biomass", unit: "g", digits: 1 },
+};
+
+export const TRAIT_KEYS = Object.keys(TRAITS);
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 // Distinct, theme-safe line colours for comparing genotypes.
 export const GENOTYPE_COLORS = ["#10b981", "#0ea5e9", "#8b5cf6", "#f59e0b", "#f43f5e", "#14b8a6"];
 
 export function formatTrait(key, value) {
   if (value === null || value === undefined || !Number.isFinite(Number(value))) return "--";
+<<<<<<< HEAD
   const meta = ALL_TRAITS[key];
   return Number(value).toFixed(meta ? meta.digits : 1);
 }
@@ -338,6 +376,19 @@ export const traitOrder = (key) => (a, b) =>
 export function cycleProgress(program) {
   if (!program?.cycleStartedAt || !program?.cycleDays) return null;
   const day = Math.max(0, Math.floor((Date.now() - new Date(program.cycleStartedAt).getTime()) / 86400000));
+=======
+  const meta = TRAITS[key];
+  return Number(value).toFixed(meta ? meta.digits : 1);
+}
+
+// Where a speed breeding cycle is, and what that means per year.
+export function cycleProgress(program) {
+  if (!program?.cycleStartedAt || !program?.cycleDays) return null;
+  const day = Math.max(
+    0,
+    Math.floor((Date.now() - new Date(program.cycleStartedAt).getTime()) / 86400000)
+  );
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   const pct = Math.min(100, (day / program.cycleDays) * 100);
   return {
     day,
@@ -346,9 +397,12 @@ export function cycleProgress(program) {
     generationsPerYear: Math.floor(365 / program.cycleDays),
   };
 }
+<<<<<<< HEAD
 
 // Daily light integral: PPFD held for the photoperiod, in mol/m²/day.
 export const dli = (ppfd, lightHours) =>
   Number.isFinite(Number(ppfd)) && Number.isFinite(Number(lightHours))
     ? (Number(ppfd) * Number(lightHours) * 3600) / 1e6
     : null;
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f

@@ -34,7 +34,10 @@ const TROUBLESHOOTING = [
 ];
 
 export default function DeviceTab({ facility, latest }) {
+<<<<<<< HEAD
   const station = facility.type === "phenotyping";
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   const [network, setNetwork] = useState(null);
 
   useEffect(() => {
@@ -76,11 +79,16 @@ const char *DEVICE_KEY  = "${network?.deviceKeyRequired ? "PASTE_DEVICE_KEY" : "
           </pre>
 
           <div className="stack" style={{ gap: 10, marginTop: 18 }}>
+<<<<<<< HEAD
             <h3 className="panel-subtitle">{station ? "Paste it into the sensor board" : "Paste the same block into both boards"}</h3>
+=======
+            <h3 className="panel-subtitle">Paste the same block into both boards</h3>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             <div className="sketch-row">
               <Cpu size={16} />
               <div>
                 <strong className="mono">arduino/sensor_node</strong>
+<<<<<<< HEAD
                 <span className="faint">
                   {station
                     ? "Reads the PAR sensor, air temperature and humidity, and the stem-diameter sensor. Set the HAS_ switches for what is wired."
@@ -108,6 +116,18 @@ const char *DEVICE_KEY  = "${network?.deviceKeyRequired ? "PASTE_DEVICE_KEY" : "
                 facility's details, not through the board.
               </span>
             )}
+=======
+                <span className="faint">Board 1. Reads the DHT22 and soil probe, sends a reading every 30 s.</span>
+              </div>
+            </div>
+            <div className="sketch-row">
+              <Cpu size={16} />
+              <div>
+                <strong className="mono">arduino/motor_node</strong>
+                <span className="faint">Board 2. Asks for the relay decision every 10 s and switches the motors.</span>
+              </div>
+            </div>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
           </div>
         </motion.section>
 
@@ -192,6 +212,7 @@ const char *DEVICE_KEY  = "${network?.deviceKeyRequired ? "PASTE_DEVICE_KEY" : "
                 <td>POST /api/device/readings</td>
                 <td style={{ fontFamily: "var(--font)" }}>Sensor board sends a reading as JSON. Replies 201, or 400 with the reason.</td>
               </tr>
+<<<<<<< HEAD
               {!station && (
                 <tr>
                   <td>GET /api/device/state/{facility._id}</td>
@@ -201,6 +222,12 @@ const char *DEVICE_KEY  = "${network?.deviceKeyRequired ? "PASTE_DEVICE_KEY" : "
                   </td>
                 </tr>
               )}
+=======
+              <tr>
+                <td>GET /api/device/state/{facility._id}</td>
+                <td style={{ fontFamily: "var(--font)" }}>Motor board fetches the relay decision: fan, cooler, mister, irrigation.</td>
+              </tr>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             </tbody>
           </table>
         </div>
@@ -220,7 +247,11 @@ const char *DEVICE_KEY  = "${network?.deviceKeyRequired ? "PASTE_DEVICE_KEY" : "
           <TriangleAlert size={19} style={{ color: "var(--amber)" }} />
         </div>
         <div className="trouble-grid">
+<<<<<<< HEAD
           {TROUBLESHOOTING.filter((t) => !station || t.code !== "off").map((t) => (
+=======
+          {TROUBLESHOOTING.map((t) => (
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             <div key={t.code} className="trouble">
               <span className="trouble-code mono">{t.code}</span>
               <div>

@@ -16,17 +16,31 @@ import {
   Sun,
   Thermometer,
   Trash2,
+<<<<<<< HEAD
   TriangleAlert,
   Video,
   Wifi,
   Wind,
+=======
+  Wifi,
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 } from "lucide-react";
 import { api } from "../lib/api";
 import { usePolling } from "../lib/usePolling";
 import { useAuth } from "../lib/auth";
 import { can, isAdmin, isSuperAdmin } from "../lib/roles";
 import { round, timeAgo } from "../lib/format";
+<<<<<<< HEAD
 import { FACILITY_TYPES, FACILITY_TYPE_KEYS, cycleProgress, hasChannel, typeMeta } from "../lib/facility";
+=======
+import {
+  FACILITY_TYPES,
+  FACILITY_TYPE_KEYS,
+  cycleProgress,
+  measuresLightAndNutrients,
+  typeMeta,
+} from "../lib/facility";
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 import { useToast } from "../components/Toast";
 import Modal from "../components/Modal";
 import { Spinner } from "../components/Spinner";
@@ -38,6 +52,7 @@ const FILTERS = [{ key: "all", label: "All" }].concat(
   FACILITY_TYPE_KEYS.map((key) => ({ key, label: FACILITY_TYPES[key].plural }))
 );
 
+<<<<<<< HEAD
 // The four numbers on a card, chosen for what the facility is for.
 function metricsFor(facility) {
   const latest = facility.latest;
@@ -67,6 +82,8 @@ function metricsFor(facility) {
   ];
 }
 
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 // forwardRef: AnimatePresence "popLayout" measures the exiting card, so it
 // needs a ref on the outermost element.
 const FacilityCard = forwardRef(function FacilityCard(
@@ -107,11 +124,14 @@ const FacilityCard = forwardRef(function FacilityCard(
           <span className={`dot${facility.online ? " dot-live" : ""}`} />
           {facility.online ? "Online" : "Offline"}
         </span>
+<<<<<<< HEAD
         {facility.alertCount > 0 && (
           <span className="facility-alerts" title="Alerts on the facility page">
             <TriangleAlert size={12} /> {facility.alertCount}
           </span>
         )}
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       </Link>
 
       <div className="facility-body">
@@ -167,6 +187,7 @@ const FacilityCard = forwardRef(function FacilityCard(
         </div>
 
         <div className="facility-metrics">
+<<<<<<< HEAD
           {metricsFor(facility)
             .filter(Boolean)
             .map((m) => (
@@ -180,6 +201,31 @@ const FacilityCard = forwardRef(function FacilityCard(
                 </strong>
               </div>
             ))}
+=======
+          {[
+            { icon: Thermometer, label: "Temp", value: latest && round(latest.temp), unit: "°C" },
+            { icon: Droplets, label: "RH", value: latest && round(latest.humidity), unit: "%" },
+            { icon: Sprout, label: "Soil", value: latest && round(latest.moisture), unit: "%" },
+            measuresLightAndNutrients(facility.type) && {
+              icon: Sun,
+              label: "PPFD",
+              value: latest && round(latest.lightInt, 0),
+              unit: "",
+            },
+          ]
+            .filter(Boolean)
+            .map((m) => (
+            <div key={m.label} className="facility-metric">
+              <span>
+                <m.icon size={11} /> {m.label}
+              </span>
+              <strong>
+                {m.value ?? "--"}
+                {m.value !== undefined && m.value !== null && <small>{m.unit}</small>}
+              </strong>
+            </div>
+          ))}
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         </div>
 
         {cycle && (

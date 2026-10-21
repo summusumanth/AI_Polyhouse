@@ -9,6 +9,7 @@ import {
 } from "recharts";
 import { useEffect, useRef } from "react";
 import { useTheme } from "../lib/theme";
+<<<<<<< HEAD
 import { CHANNELS } from "../lib/facility";
 
 const seriesFor = (keys) =>
@@ -17,6 +18,22 @@ const seriesFor = (keys) =>
     label: `${CHANNELS[key].label}${CHANNELS[key].unit ? ` (${CHANNELS[key].unit})` : ""}`,
     color: CHANNELS[key].color,
   }));
+=======
+
+const CLIMATE = [
+  { key: "temp", label: "Temperature °C", color: "#f59e0b" },
+  { key: "humidity", label: "Humidity %", color: "#0ea5e9" },
+  { key: "moisture", label: "Soil moisture %", color: "#10b981" },
+];
+
+const LIGHT = [{ key: "lightInt", label: "Light (PPFD)", color: "#d946ef" }];
+
+const NUTRIENTS = [
+  { key: "N", label: "Nitrogen", color: "#10b981" },
+  { key: "P", label: "Phosphorus", color: "#0ea5e9" },
+  { key: "K", label: "Potassium", color: "#8b5cf6" },
+];
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 // Recharts needs real colour values, not CSS variables.
 function useChartColors() {
@@ -122,6 +139,7 @@ function SeriesChart({ data, series, hours, height }) {
   );
 }
 
+<<<<<<< HEAD
 // Any set of channels on one chart. Channels the board never reported are
 // left out, and the legend only lists what is drawn.
 export function ChannelChart({ data, keys, hours, height = 220 }) {
@@ -132,6 +150,37 @@ export function ChannelChart({ data, keys, hours, height = 220 }) {
     <>
       <Legend series={series} />
       <SeriesChart data={data} series={series} hours={hours} height={height} />
+=======
+export function ClimateChart({ data, hours }) {
+  if (!data.length) return <EmptyChart />;
+  return (
+    <>
+      <Legend series={CLIMATE} />
+      <SeriesChart data={data} series={CLIMATE} hours={hours} height={260} />
+    </>
+  );
+}
+
+// The light curve is where facilities differ most: a sun-shaped bell in a
+// polyhouse, a square wave in a chamber, and a near-flat line under speed
+// breeding with only a short dark gap.
+export function LightChart({ data, hours }) {
+  if (!data.length) return <EmptyChart />;
+  return (
+    <>
+      <Legend series={LIGHT} />
+      <SeriesChart data={data} series={LIGHT} hours={hours} height={150} />
+    </>
+  );
+}
+
+export function NutrientChart({ data, hours }) {
+  if (!data.length) return <EmptyChart />;
+  return (
+    <>
+      <Legend series={NUTRIENTS} />
+      <SeriesChart data={data} series={NUTRIENTS} hours={hours} height={240} />
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     </>
   );
 }

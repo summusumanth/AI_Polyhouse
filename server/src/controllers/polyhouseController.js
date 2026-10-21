@@ -2,6 +2,7 @@ const Polyhouse = require("../models/Polyhouse");
 const Reading = require("../models/Reading");
 const Threshold = require("../models/Threshold");
 const Phenotype = require("../models/Phenotype");
+<<<<<<< HEAD
 const ControlState = require("../models/ControlState");
 const Area = require("../models/Area");
 const User = require("../models/User");
@@ -13,6 +14,16 @@ const { asyncHandler } = require("../middleware/errorHandler");
 const { facilityScope, permissionFor, atLeast } = require("../lib/access");
 
 const { FACILITY_TYPES, FACILITY_STATUSES, CAMERA_ROLES, PHENO_DEVICES, EQUIPMENT } = Polyhouse;
+=======
+const Area = require("../models/Area");
+const User = require("../models/User");
+const mongoose = require("mongoose");
+const { computeActuators } = require("../lib/control");
+const { asyncHandler } = require("../middleware/errorHandler");
+const { facilityScope, permissionFor } = require("../lib/access");
+
+const { FACILITY_TYPES, FACILITY_STATUSES } = Polyhouse;
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 // A facility counts as online if it reported within this window.
 const ONLINE_WINDOW_MS = 60 * 60 * 1000;
@@ -23,6 +34,7 @@ const num = (value) => {
   return Number.isFinite(n) ? n : undefined;
 };
 
+<<<<<<< HEAD
 const blank = (value) => value === "" || value === null;
 
 /*
@@ -109,6 +121,34 @@ const shape = (house, permission) =>
 const listPolyhouses = asyncHandler(async (req, res) => {
   // One round trip: each facility with its newest reading, targets, relay
   // memory and trial size.
+=======
+// Copies only the fields a client may set. Anything else in the body
+// (seeded, _id, timestamps...) is ignored.
+function pickFacilityFields(body) {
+  const out = {};
+  for (const key of ["name", "desc", "crop", "variety", "location"]) {
+    if (typeof body[key] === "string") out[key] = body[key].trim();
+  }
+  if (FACILITY_TYPES.includes(body.type)) out.type = body.type;
+  if (FACILITY_STATUSES.includes(body.status)) out.status = body.status;
+  if (num(body.areaSqm) !== undefined) out.areaSqm = num(body.areaSqm);
+
+  const lightHours = num(body.photoperiod?.lightHours);
+  if (lightHours !== undefined) out["photoperiod.lightHours"] = lightHours;
+
+  const p = body.program || {};
+  if (num(p.generation) !== undefined) out["program.generation"] = num(p.generation);
+  if (num(p.totalGenerations) !== undefined)
+    out["program.totalGenerations"] = num(p.totalGenerations);
+  if (num(p.cycleDays) !== undefined) out["program.cycleDays"] = num(p.cycleDays);
+  if (p.cycleStartedAt) out["program.cycleStartedAt"] = new Date(p.cycleStartedAt);
+
+  return out;
+}
+
+const listPolyhouses = asyncHandler(async (req, res) => {
+  // One round trip: each facility with its newest reading and its targets.
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   const houses = await Polyhouse.aggregate([
     // Only what this person may see: everything, their area, or their grants.
     { $match: facilityScope(req.user) },
@@ -126,8 +166,19 @@ const listPolyhouses = asyncHandler(async (req, res) => {
         as: "latest",
       },
     },
+<<<<<<< HEAD
     { $lookup: { from: Threshold.collection.name, localField: "idString", foreignField: "_id", as: "threshold" } },
     { $lookup: { from: ControlState.collection.name, localField: "idString", foreignField: "_id", as: "controlState" } },
+=======
+    {
+      $lookup: {
+        from: Threshold.collection.name,
+        localField: "idString",
+        foreignField: "_id",
+        as: "threshold",
+      },
+    },
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     {
       $lookup: {
         from: Phenotype.collection.name,
@@ -139,6 +190,7 @@ const listPolyhouses = asyncHandler(async (req, res) => {
         as: "genotypes",
       },
     },
+<<<<<<< HEAD
     { $lookup: { from: Area.collection.name, localField: "area", foreignField: "_id", as: "areaDoc" } },
     {
       $addFields: {
@@ -167,6 +219,44 @@ const listPolyhouses = asyncHandler(async (req, res) => {
       lightsOn: schedule(house.photoperiod, new Date(now))?.lightsOn ?? null,
       cameraCount: cameras.configured(house).length,
       permission,
+=======
+    {
+      $lookup: { from: Area.collection.name, localField: "area", foreignField: "_id", as: "areaDoc" },
+    },
+    {
+      // Inclusion projection: anything not listed (such as idString) is dropped.
+      $project: {
+        area: 1,
+        areaName: { $arrayElemAt: ["$areaDoc.name", 0] },
+        latest: { $arrayElemAt: ["$latest", 0] },
+        threshold: { $arrayElemAt: ["$threshold", 0] },
+        genotypeCount: { $size: "$genotypes" },
+        name: 1,
+        desc: 1,
+        type: 1,
+        status: 1,
+        crop: 1,
+        variety: 1,
+        location: 1,
+        areaSqm: 1,
+        photoperiod: 1,
+        program: 1,
+        createdAt: 1,
+      },
+    },
+  ]);
+
+  const now = Date.now();
+  const data = houses.map((house) => {
+    const actuators = computeActuators(house.threshold, house.latest);
+    return {
+      ...house,
+      type: house.type || "polyhouse",
+      online: Boolean(house.latest && now - new Date(house.latest.date).getTime() < ONLINE_WINDOW_MS),
+      actuators,
+      activeActuators: actuators ? Object.values(actuators).filter(Boolean).length : 0,
+      permission: permissionFor(req.user, house),
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     };
   });
 
@@ -179,6 +269,7 @@ const getPolyhouse = asyncHandler(async (req, res) => {
   const area = house.area ? await Area.findById(house.area).select("name").lean() : null;
   res.json({
     status: "ok",
+<<<<<<< HEAD
     data: {
       ...shape(house, req.permission),
       type: house.type || "polyhouse",
@@ -213,6 +304,12 @@ const cameraFeed = asyncHandler(async (req, res) => {
   await cameras.relay(house, payload.r, res);
 });
 
+=======
+    data: { ...house, type: house.type || "polyhouse", areaName: area?.name ?? null, permission: req.permission },
+  });
+});
+
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 // Super admins choose the area; area admins always create in their own.
 async function resolveArea(req) {
   if (req.user.role !== "super_admin") return { area: req.user.area };
@@ -224,23 +321,33 @@ async function resolveArea(req) {
 }
 
 const createPolyhouse = asyncHandler(async (req, res) => {
+<<<<<<< HEAD
   const type = FACILITY_TYPES.includes(req.body.type) ? req.body.type : "polyhouse";
   const { update, set, error: fieldError } = facilityUpdate(req.body, type);
   if (fieldError) return res.status(400).json({ status: "error", message: fieldError });
   if (!set.name || !set.desc) {
+=======
+  const fields = pickFacilityFields(req.body);
+  if (!fields.name || !fields.desc) {
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     return res.status(400).json({ status: "error", message: "Name and description are required" });
   }
   const { area, error } = await resolveArea(req);
   if (error) return res.status(400).json({ status: "error", message: error });
+<<<<<<< HEAD
 
   // Dotted paths ("photoperiod.lightHours") need an update to apply, so the
   // document is created first and the rest set on it.
   const house = await Polyhouse.create({ name: set.name, desc: set.desc, type, area });
   const saved = await Polyhouse.findByIdAndUpdate(house._id, update, { new: true, runValidators: true });
+=======
+  const house = await Polyhouse.create({ ...fields, area });
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   // An area admin limited to certain facilities would otherwise create one
   // and immediately lose sight of it, so give them manage on what they make.
   if (req.user.role === "area_admin" && (req.user.access || []).length) {
+<<<<<<< HEAD
     await User.updateOne({ _id: req.user._id }, { $push: { access: { facility: house._id, level: "manage" } } });
   }
 
@@ -282,17 +389,54 @@ const updatePolyhouse = asyncHandler(async (req, res) => {
     return res.status(404).json({ status: "error", message: "Facility not found" });
   }
   if (movingTo) {
+=======
+    await User.updateOne(
+      { _id: req.user._id },
+      { $push: { access: { facility: house._id, level: "manage" } } }
+    );
+  }
+
+  res.status(201).json({ status: "ok", message: "Facility created", data: house });
+});
+
+const updatePolyhouse = asyncHandler(async (req, res) => {
+  const fields = pickFacilityFields(req.body);
+  if (fields.name === "" || fields.desc === "") {
+    return res.status(400).json({ status: "error", message: "Name and description cannot be empty" });
+  }
+  // Only super admins move a facility to another area. Grants held by people
+  // of the old area stop counting at once (lib/access.js) and are removed.
+  const movingTo = req.user.role === "super_admin" && req.body.area && String(req.body.area) !== String(req.facility.area);
+  if (movingTo) {
+    const { area, error } = await resolveArea(req);
+    if (error) return res.status(400).json({ status: "error", message: error });
+    fields.area = area;
+  }
+  const house = await Polyhouse.findByIdAndUpdate(
+    req.params.id,
+    { $set: fields },
+    { new: true, runValidators: true }
+  );
+  if (house && movingTo) {
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     await User.updateMany(
       { area: { $ne: house.area }, "access.facility": house._id },
       { $pull: { access: { facility: house._id } } }
     );
   }
+<<<<<<< HEAD
   const gateway = await cameras.syncFacility(house.toObject());
   res.json({
     status: "ok",
     message: gateway.ok ? "Facility updated" : "Facility updated, but the RTSP gateway could not be reached",
     data: house,
   });
+=======
+  if (!house) {
+    return res.status(404).json({ status: "error", message: "Facility not found" });
+  }
+  res.json({ status: "ok", message: "Facility updated", data: house });
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 });
 
 const deletePolyhouse = asyncHandler(async (req, res) => {
@@ -303,10 +447,15 @@ const deletePolyhouse = asyncHandler(async (req, res) => {
   await Promise.all([
     Reading.deleteMany({ polyhsid: req.params.id }),
     Threshold.findByIdAndDelete(req.params.id),
+<<<<<<< HEAD
     ControlState.findByIdAndDelete(req.params.id),
     Phenotype.deleteMany({ facility: req.params.id }),
     User.updateMany({}, { $pull: { access: { facility: house._id } } }),
     cameras.syncFacility(house.toObject(), { removed: true }),
+=======
+    Phenotype.deleteMany({ facility: req.params.id }),
+    User.updateMany({}, { $pull: { access: { facility: house._id } } }),
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   ]);
   res.json({ status: "ok", message: "Facility deleted" });
 });
@@ -314,8 +463,11 @@ const deletePolyhouse = asyncHandler(async (req, res) => {
 module.exports = {
   listPolyhouses,
   getPolyhouse,
+<<<<<<< HEAD
   listCameras,
   cameraFeed,
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   createPolyhouse,
   updatePolyhouse,
   deletePolyhouse,

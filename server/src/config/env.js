@@ -21,6 +21,7 @@ const config = {
     name: process.env.BOOTSTRAP_NAME || "",
     password: process.env.BOOTSTRAP_PASSWORD || "",
   },
+<<<<<<< HEAD
   // The zone the photoperiod schedule is read in (e.g. Asia/Kolkata).
   // Defaults to the zone of the computer running the server.
   timezone: process.env.TIMEZONE || Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC",
@@ -33,6 +34,8 @@ const config = {
     user: process.env.MEDIAMTX_API_USER || "",
     pass: process.env.MEDIAMTX_API_PASS || "",
   },
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   clientOrigins: (process.env.CLIENT_ORIGIN || "http://localhost:5173")
     .split(",")
     .map((o) => o.trim())

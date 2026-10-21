@@ -481,6 +481,7 @@ select.input {
   background: var(--violet);
   color: #fff;
 }
+<<<<<<< HEAD
 
 /* ----------------------------------------------------------------
    Brand: mark, wordmark and lockup
@@ -668,3 +669,5 @@ select.input {
   align-items: center;
   gap: 6px;
 }
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f

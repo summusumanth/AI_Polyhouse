@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!doctype html>
 <html lang="en">
   <head>
@@ -34,3 +35,41 @@
     <div id="root"></div>
   </body>
 </html>
+=======
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#f4f8f5" />
+    <meta
+      name="description"
+      content="Polyhouse control room - live temperature, humidity, soil and nutrient monitoring."
+    />
+    <link rel="icon" href="/leaf.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <title>Polyhouse Control Room</title>
+    <script>
+      // Apply the saved theme before first paint so the page never flashes.
+      (function () {
+        try {
+          var saved = localStorage.getItem("polyhouse.theme.v2");
+          document.documentElement.dataset.theme =
+            saved === "dark" || saved === "light" ? saved : "light";
+        } catch (e) {
+          document.documentElement.dataset.theme = "light";
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f

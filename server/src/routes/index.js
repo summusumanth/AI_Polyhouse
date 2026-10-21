@@ -10,10 +10,13 @@ router.use("/polyhouses", require("./polyhouseRoutes"));
 router.use("/phenotypes", require("./phenotypeRoutes"));
 router.use("/device", require("./deviceRoutes"));
 
+<<<<<<< HEAD
 // Camera relay for <img> tags. The token in the URL is the login (see
 // lib/cameras.js), because an image request cannot carry a header.
 router.get("/camera-feed/:token", require("../controllers/polyhouseController").cameraFeed);
 
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 router.get("/health", (req, res) => res.json({ status: "ok", uptime: process.uptime() }));
 
 // The addresses a sensor node should use to reach this server. A browser on

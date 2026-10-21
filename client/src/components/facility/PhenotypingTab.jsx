@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { Camera, Flower2, ImageUp, Microscope, Plus, Save, Trophy } from "lucide-react";
@@ -47,11 +48,23 @@ const FORM_GROUPS = [
   { device: "stem_sensor", keys: ["stemDiameter"] },
   { device: "weighing_scale", keys: ["biomass", "yieldWeight"] },
 ];
+=======
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { motion } from "framer-motion";
+import { Microscope, Plus, Save, Trophy } from "lucide-react";
+import { api } from "../../lib/api";
+import { TRAITS, TRAIT_KEYS, formatTrait } from "../../lib/facility";
+import { useToast } from "../Toast";
+import Modal from "../Modal";
+import { Spinner } from "../Spinner";
+import { GrowthCurves, genotypeColor } from "../TraitCharts";
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 const emptyObservation = () => ({
   genotype: "",
   plot: "",
   growthStage: "",
+<<<<<<< HEAD
   flowering: false,
   notes: "",
   date: new Date().toISOString().slice(0, 10),
@@ -62,6 +75,13 @@ const emptyObservation = () => ({
 });
 
 export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
+=======
+  date: new Date().toISOString().slice(0, 10),
+  ...Object.fromEntries(TRAIT_KEYS.map((k) => [k, ""])),
+});
+
+export default function PhenotypingTab({ facility, canOperate }) {
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   const toast = useToast();
   const [observations, setObservations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -85,6 +105,7 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
     load();
   }, [load]);
 
+<<<<<<< HEAD
   const genotypes = useMemo(() => [...new Set(observations.map((o) => o.genotype))].sort(), [observations]);
 
   // Per genotype: the newest value of every trait (yield is weighed once,
@@ -131,6 +152,37 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
 
   const ranked = useMemo(() => lines.filter((l) => Number.isFinite(l[trait])).sort(traitOrder(trait)), [lines, trait]);
   const leader = ranked[0] || null;
+=======
+  const genotypes = useMemo(
+    () => [...new Set(observations.map((o) => o.genotype))].sort(),
+    [observations]
+  );
+
+  // Most recent observation per genotype.
+  const latest = useMemo(() => {
+    const map = new Map();
+    for (const o of observations) {
+      const prev = map.get(o.genotype);
+      if (!prev || new Date(o.date) > new Date(prev.date)) map.set(o.genotype, o);
+    }
+    return genotypes.map((g) => map.get(g));
+  }, [observations, genotypes]);
+
+  // Best value per trait, to highlight the leading genotype in each column.
+  const best = useMemo(() => {
+    const out = {};
+    for (const key of TRAIT_KEYS) {
+      const values = latest.map((o) => o?.[key]).filter((v) => Number.isFinite(v));
+      out[key] = values.length ? Math.max(...values) : null;
+    }
+    return out;
+  }, [latest]);
+
+  const leader = useMemo(() => {
+    const top = latest.filter((o) => Number.isFinite(o?.[trait])).sort((a, b) => b[trait] - a[trait])[0];
+    return top || null;
+  }, [latest, trait]);
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   const record = async (e) => {
     e.preventDefault();
@@ -148,6 +200,7 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
     }
   };
 
+<<<<<<< HEAD
   const modal = (
     <RecordModal
       open={recordOpen}
@@ -163,26 +216,52 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
   );
 
   if (loading) return <div className="skeleton" style={{ height: 360 }} />;
+=======
+  if (loading) {
+    return <div className="skeleton" style={{ height: 360 }} />;
+  }
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   if (!observations.length) {
     return (
       <div className="panel empty">
+<<<<<<< HEAD
         <Microscope size={30} style={{ color: "var(--cyan)" }} />
         <h3>No phenotyping data yet</h3>
         <p style={{ maxWidth: "50ch" }}>
           Record plant height, leaf area, canopy temperature, NDVI, stem diameter and yield per genotype to see growth
           curves and rankings here.
+=======
+        <Microscope size={30} style={{ color: "var(--accent)" }} />
+        <h3>No phenotyping data yet</h3>
+        <p style={{ maxWidth: "46ch" }}>
+          Record plant height, leaf area, NDVI and other traits per genotype to see growth curves
+          and rankings here.
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         </p>
         {canOperate && (
           <button className="btn btn-primary btn-sm" onClick={() => setRecordOpen(true)}>
             <Plus size={16} /> Record observation
           </button>
         )}
+<<<<<<< HEAD
         {modal}
+=======
+        <RecordModal
+          open={recordOpen}
+          onClose={() => setRecordOpen(false)}
+          draft={draft}
+          setDraft={setDraft}
+          onSubmit={record}
+          saving={saving}
+          genotypes={genotypes}
+        />
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       </div>
     );
   }
 
+<<<<<<< HEAD
   const meta = ALL_TRAITS[trait];
   const isDerived = Boolean(DERIVED[trait]);
 
@@ -191,15 +270,31 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
       <div className="row-between" style={{ alignItems: "flex-start" }}>
         <div className="chips" role="radiogroup" aria-label="Trait">
           {present.map((key) => (
+=======
+  const meta = TRAITS[trait];
+
+  return (
+    <div className="stack" style={{ gap: 20 }}>
+      <div className="row-between">
+        <div className="chips" role="radiogroup" aria-label="Trait">
+          {TRAIT_KEYS.map((key) => (
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             <button
               key={key}
               role="radio"
               aria-checked={trait === key}
+<<<<<<< HEAD
               className={`chip${trait === key ? " is-active" : ""}${DERIVED[key] ? " chip-derived" : ""}`}
               onClick={() => setTrait(key)}
               title={DERIVED[key] ? "Worked out from the observations" : undefined}
             >
               {ALL_TRAITS[key].label}
+=======
+              className={`chip${trait === key ? " is-active" : ""}`}
+              onClick={() => setTrait(key)}
+            >
+              {TRAITS[key].label}
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             </button>
           ))}
         </div>
@@ -224,6 +319,7 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
                 {meta.label} {meta.unit && <span className="faint">({meta.unit})</span>}
               </h2>
               <span className="faint">
+<<<<<<< HEAD
                 {isDerived
                   ? "worked out from the observations · " + PHENO_DEVICES[meta.device].label
                   : `${genotypes.length} genotypes · ${observations.length} observations · ${PHENO_DEVICES[meta.device].label}`}
@@ -245,6 +341,21 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
               <GrowthCurves observations={observations} trait={trait} genotypes={genotypes} />
             </>
           )}
+=======
+                {genotypes.length} genotypes · {observations.length} observations
+              </span>
+            </div>
+          </div>
+          <div className="chart-legend">
+            {genotypes.map((g) => (
+              <span key={g} className="row" style={{ gap: 7 }}>
+                <span className="chart-swatch" style={{ background: genotypeColor(genotypes, g) }} />
+                <span className="muted">{g}</span>
+              </span>
+            ))}
+          </div>
+          <GrowthCurves observations={observations} trait={trait} genotypes={genotypes} />
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         </motion.section>
 
         <motion.section
@@ -256,9 +367,13 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
           <div className="panel-head">
             <div>
               <h2 className="panel-title">Leading genotype</h2>
+<<<<<<< HEAD
               <span className="faint">
                 {meta.better === "low" ? "lowest" : "highest"} {meta.label.toLowerCase()}
               </span>
+=======
+              <span className="faint">highest {meta.label.toLowerCase()} at the last observation</span>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             </div>
             <Trophy size={20} style={{ color: "var(--amber)" }} />
           </div>
@@ -279,10 +394,17 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
             </motion.div>
           )}
           <div className="stack" style={{ gap: 10, marginTop: 18 }}>
+<<<<<<< HEAD
             {ranked.map((o, i) => {
               const values = ranked.map((r) => Math.abs(r[trait]));
               const top = Math.max(...values) || 1;
               return (
+=======
+            {latest
+              .filter((o) => Number.isFinite(o?.[trait]))
+              .sort((a, b) => b[trait] - a[trait])
+              .map((o, i) => (
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
                 <div key={o.genotype} className="rank-row">
                   <span className="faint mono">{i + 1}</span>
                   <span className="rank-name">{o.genotype}</span>
@@ -290,14 +412,22 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
                     <motion.span
                       style={{ background: genotypeColor(genotypes, o.genotype) }}
                       initial={{ width: 0 }}
+<<<<<<< HEAD
                       animate={{ width: `${(Math.abs(o[trait]) / top) * 100}%` }}
+=======
+                      animate={{ width: `${best[trait] ? (o[trait] / best[trait]) * 100 : 0}%` }}
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
                       transition={{ duration: 0.8, delay: 0.1 + i * 0.07 }}
                     />
                   </div>
                   <span className="mono rank-value">{formatTrait(trait, o[trait])}</span>
                 </div>
+<<<<<<< HEAD
               );
             })}
+=======
+              ))}
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
           </div>
         </motion.section>
       </div>
@@ -305,8 +435,13 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
       <section className="panel">
         <div className="panel-head">
           <div>
+<<<<<<< HEAD
             <h2 className="panel-title">Latest value per genotype</h2>
             <span className="faint">the leader in each trait is highlighted; shaded columns are worked out, not measured</span>
+=======
+            <h2 className="panel-title">Latest observation per genotype</h2>
+            <span className="faint">the leader in each trait is highlighted</span>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
           </div>
         </div>
         <div className="table-scroll">
@@ -316,17 +451,28 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
                 <th>Genotype</th>
                 <th>Stage</th>
                 <th>Date</th>
+<<<<<<< HEAD
                 <th>Flowering</th>
                 {present.map((k) => (
                   <th key={k} className={DERIVED[k] ? "th-derived" : ""}>
                     {ALL_TRAITS[k].label}
                     {ALL_TRAITS[k].unit && ` (${ALL_TRAITS[k].unit})`}
+=======
+                {TRAIT_KEYS.map((k) => (
+                  <th key={k}>
+                    {TRAITS[k].label}
+                    {TRAITS[k].unit && ` (${TRAITS[k].unit})`}
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody>
+<<<<<<< HEAD
               {lines.map((o) => (
+=======
+              {latest.map((o) => (
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
                 <tr key={o.genotype}>
                   <td style={{ fontFamily: "var(--font)" }}>
                     <span className="row" style={{ gap: 8 }}>
@@ -336,9 +482,14 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
                   </td>
                   <td style={{ fontFamily: "var(--font)" }}>{o.growthStage || "--"}</td>
                   <td>{new Date(o.date).toLocaleDateString(undefined, { day: "2-digit", month: "short" })}</td>
+<<<<<<< HEAD
                   <td>{o.flowering ? <Flower2 size={14} style={{ color: "var(--rose)" }} /> : "--"}</td>
                   {present.map((k) => (
                     <td key={k} className={`${o[k] === best[k] && o[k] !== null ? "cell-best" : ""}${DERIVED[k] ? " td-derived" : ""}`}>
+=======
+                  {TRAIT_KEYS.map((k) => (
+                    <td key={k} className={o[k] === best[k] ? "cell-best" : ""}>
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
                       {formatTrait(k, o[k])}
                     </td>
                   ))}
@@ -349,11 +500,24 @@ export default function PhenotypingTab({ facility, canOperate, hasRgbCamera }) {
         </div>
       </section>
 
+<<<<<<< HEAD
       {modal}
+=======
+      <RecordModal
+        open={recordOpen}
+        onClose={() => setRecordOpen(false)}
+        draft={draft}
+        setDraft={setDraft}
+        onSubmit={record}
+        saving={saving}
+        genotypes={genotypes}
+      />
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     </div>
   );
 }
 
+<<<<<<< HEAD
 // Fills canopy cover and leaf colour from a photo or the RGB camera.
 function ImageFill({ facility, hasRgbCamera, onResult }) {
   const toast = useToast();
@@ -462,6 +626,10 @@ function RecordModal({ open, onClose, draft, setDraft, onSubmit, saving, genotyp
     );
   };
 
+=======
+function RecordModal({ open, onClose, draft, setDraft, onSubmit, saving, genotypes }) {
+  const set = (key) => (e) => setDraft((d) => ({ ...d, [key]: e.target.value }));
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   return (
     <Modal open={open} title="Record observation" onClose={onClose} wide>
       <form className="stack" onSubmit={onSubmit}>
@@ -489,6 +657,7 @@ function RecordModal({ open, onClose, draft, setDraft, onSubmit, saving, genotyp
           </div>
           <div className="field">
             <label htmlFor="o-plot">Plot / tray</label>
+<<<<<<< HEAD
             <input id="o-plot" className="input" placeholder="e.g. PS1/R2" value={draft.plot} onChange={set("plot")} />
           </div>
           <div className="field">
@@ -541,6 +710,34 @@ function RecordModal({ open, onClose, draft, setDraft, onSubmit, saving, genotyp
             <label htmlFor="o-notes">Notes</label>
             <input id="o-notes" className="input" placeholder="Visible symptoms, damage…" value={draft.notes} onChange={set("notes")} />
           </div>
+=======
+            <input id="o-plot" className="input" placeholder="e.g. SB1/R2" value={draft.plot} onChange={set("plot")} />
+          </div>
+          <div className="field">
+            <label htmlFor="o-stage">Growth stage</label>
+            <input id="o-stage" className="input" placeholder="e.g. BBCH 55 · Heading" value={draft.growthStage} onChange={set("growthStage")} />
+          </div>
+        </div>
+
+        <div className="form-grid form-grid-3">
+          {TRAIT_KEYS.map((k) => (
+            <div key={k} className="field">
+              <label htmlFor={`o-${k}`}>
+                {TRAITS[k].label} {TRAITS[k].unit && <span className="faint">({TRAITS[k].unit})</span>}
+              </label>
+              <input
+                id={`o-${k}`}
+                className="input"
+                type="number"
+                step="any"
+                min={k === "ndvi" ? -1 : 0}
+                max={k === "ndvi" ? 1 : k === "canopyCover" ? 100 : undefined}
+                value={draft[k]}
+                onChange={set(k)}
+              />
+            </div>
+          ))}
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         </div>
 
         <div className="modal-actions">

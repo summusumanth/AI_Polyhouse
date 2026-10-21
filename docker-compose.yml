@@ -41,6 +41,7 @@ services:
     restart: unless-stopped
     ports:
       - "8554:8554" # RTSP in
+<<<<<<< HEAD
       - "8889:8889" # WebRTC out (the player page browsers open)
       - "8189:8189/udp" # WebRTC media
       - "8888:8888" # HLS out
@@ -49,14 +50,22 @@ services:
       - "127.0.0.1:9997:9997"
     volumes:
       - ./mediamtx.yml:/mediamtx.yml:ro
+=======
+      - "8889:8889" # WebRTC out (WHEP)
+      - "8888:8888" # HLS out
+      - "9997:9997" # control API, used by the server to add and remove cameras
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     environment:
       MTX_API: "yes"
       MTX_APIADDRESS: :9997
       MTX_RTSPADDRESS: :8554
       MTX_WEBRTCADDRESS: :8889
       MTX_HLSADDRESS: :8888
+<<<<<<< HEAD
       # The addresses browsers use to reach this computer. Add its LAN
       # address (e.g. 127.0.0.1,192.168.1.50) so other computers can watch.
+=======
+>>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       MTX_WEBRTCADDITIONALHOSTS: 127.0.0.1
       MTX_PROTOCOLS: tcp
 
