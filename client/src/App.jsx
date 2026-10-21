@@ -5,11 +5,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { PageLoader } from "./components/Spinner";
 import ChangePassword from "./components/ChangePassword";
-<<<<<<< HEAD
 import { BrandMark } from "./components/Brand";
-=======
-import { Leaf } from "lucide-react";
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 import { useAuth } from "./lib/auth";
 import { isAdmin } from "./lib/roles";
 import Landing from "./pages/Landing";
@@ -18,12 +14,8 @@ import Login from "./pages/Login";
 // download the charting library before anyone has signed in.
 const Dashboard = lazy(() => import("./pages/Dashboard"));
 const FacilityDetail = lazy(() => import("./pages/FacilityDetail"));
-<<<<<<< HEAD
 const SpeedBreeding = lazy(() => import("./pages/SpeedBreeding"));
 const Phenotyping = lazy(() => import("./pages/Phenotyping"));
-=======
-const Breeding = lazy(() => import("./pages/Breeding"));
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 const Team = lazy(() => import("./pages/Team"));
 
 // Old /polyhouse/:id links (bookmarks, earlier builds) still land correctly.
@@ -47,13 +39,7 @@ function ForcePasswordChange() {
   return (
     <div className="wrap auth">
       <div className="panel auth-card">
-<<<<<<< HEAD
         <BrandMark size={56} />
-=======
-        <span className="brand-mark" style={{ marginBottom: 18 }}>
-          <Leaf size={19} />
-        </span>
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         <h1 style={{ fontSize: "1.5rem" }}>Set your password</h1>
         <p style={{ marginTop: 8, fontSize: "0.92rem" }}>
           This takes a moment and only happens once.
@@ -144,24 +130,15 @@ export default function App() {
               }
             />
             <Route
-<<<<<<< HEAD
               path="/speed-breeding"
               element={
                 <RequireAuth>
                   <Page>
                     <SpeedBreeding />
-=======
-              path="/breeding"
-              element={
-                <RequireAuth>
-                  <Page>
-                    <Breeding />
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
                   </Page>
                 </RequireAuth>
               }
             />
-<<<<<<< HEAD
             <Route
               path="/phenotyping"
               element={
@@ -174,9 +151,6 @@ export default function App() {
             />
             {/* The combined page from earlier builds. */}
             <Route path="/breeding" element={<Navigate to="/speed-breeding" replace />} />
-=======
-            <Route path="/phenotyping" element={<Navigate to="/breeding" replace />} />
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             <Route
               path="/team"
               element={

@@ -1,16 +1,10 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-<<<<<<< HEAD
 import { ArrowRight, CircleAlert } from "lucide-react";
 import { useAuth } from "../lib/auth";
 import { Spinner } from "../components/Spinner";
 import { BrandLockup } from "../components/Brand";
-=======
-import { ArrowRight, CircleAlert, Leaf } from "lucide-react";
-import { useAuth } from "../lib/auth";
-import { Spinner } from "../components/Spinner";
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 export default function Login() {
   const { login } = useAuth();
@@ -44,15 +38,8 @@ export default function Login() {
         animate={{ opacity: 1, y: 0, scale: 1 }}
         transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
       >
-<<<<<<< HEAD
         <BrandLockup markSize={68} />
         <h1 style={{ fontSize: "1.6rem", marginTop: 18 }}>Welcome back</h1>
-=======
-        <span className="brand-mark" style={{ marginBottom: 18 }}>
-          <Leaf size={19} />
-        </span>
-        <h1 style={{ fontSize: "1.6rem" }}>Welcome back</h1>
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         <p style={{ marginTop: 8, fontSize: "0.92rem" }}>
           Sign in to reach your polyhouse control room.
         </p>

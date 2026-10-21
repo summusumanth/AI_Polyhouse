@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-<<<<<<< HEAD
 import { Fan } from "lucide-react";
 import { EQUIPMENT } from "../lib/facility";
 
@@ -10,21 +9,6 @@ import { EQUIPMENT } from "../lib/facility";
 // `equipment` lists every fitted relay, so one that cannot be decided yet
 // (no sensor, no target) still shows, as "no data".
 export default function ActuatorPanel({ actuators, equipment = [], message }) {
-=======
-import { CloudFog, Droplets, Fan, Snowflake } from "lucide-react";
-
-const ICONS = {
-  fan: Fan,
-  cooler: Snowflake,
-  mister: CloudFog,
-  irrigation: Droplets,
-};
-
-// Shows the decision the server sends to the relay board, with the
-// comparison behind each one. The dashboard no longer works this out on its
-// own, so it cannot drift from what the hardware does.
-export default function ActuatorPanel({ actuators, message }) {
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   if (!actuators) {
     // The server sends every relay "off" in this state; say why.
     return (
@@ -35,7 +19,6 @@ export default function ActuatorPanel({ actuators, message }) {
     );
   }
 
-<<<<<<< HEAD
   const decided = Object.fromEntries(actuators.map((a) => [a.key, a]));
   const rows = equipment.length ? equipment.map((e) => decided[e.key] || { ...e, idle: true }) : actuators;
 
@@ -52,39 +35,16 @@ export default function ActuatorPanel({ actuators, message }) {
             initial={{ opacity: 0, x: -14 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.4, delay: Math.min(index * 0.05, 0.4) }}
-=======
-  return (
-    <div className="actuators">
-      {actuators.map((a, index) => {
-        const Icon = ICONS[a.key] || Fan;
-        return (
-          <motion.div
-            key={a.key}
-            className={`actuator${a.on ? " actuator-on" : ""}`}
-            initial={{ opacity: 0, x: -14 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.4, delay: index * 0.06 }}
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
           >
             <span className="actuator-name">
               <motion.span
                 className="actuator-icon"
-<<<<<<< HEAD
                 animate={spin ? { rotate: 360 } : { rotate: 0 }}
                 transition={spin ? { repeat: Infinity, duration: 1.4, ease: "linear" } : { duration: 0.3 }}
-=======
-                animate={a.on && a.key === "fan" ? { rotate: 360 } : { rotate: 0 }}
-                transition={
-                  a.on && a.key === "fan"
-                    ? { repeat: Infinity, duration: 1.4, ease: "linear" }
-                    : { duration: 0.3 }
-                }
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
               >
                 <Icon size={17} />
               </motion.span>
               <span>
-<<<<<<< HEAD
                 {a.label || EQUIPMENT[a.key]?.label}
                 <br />
                 <span className="faint mono">{a.idle ? "needs its sensor and target" : a.reason}</span>
@@ -93,16 +53,6 @@ export default function ActuatorPanel({ actuators, message }) {
             <span className={`pill ${a.on ? "pill-on" : a.held ? "pill-warn" : "pill-off"}`}>
               <span className={`dot${a.on ? " dot-live" : ""}`} />
               {state}
-=======
-                {a.label}
-                <br />
-                <span className="faint mono">{a.reason}</span>
-              </span>
-            </span>
-            <span className={`pill ${a.on ? "pill-on" : "pill-off"}`}>
-              <span className={`dot${a.on ? " dot-live" : ""}`} />
-              {a.on ? "Running" : "Idle"}
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             </span>
           </motion.div>
         );

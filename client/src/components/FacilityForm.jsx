@@ -1,5 +1,4 @@
 import { AnimatePresence, motion } from "framer-motion";
-<<<<<<< HEAD
 import { Check, Save, Video } from "lucide-react";
 import {
   CAMERA_FORMATS,
@@ -19,12 +18,6 @@ import { Spinner } from "./Spinner";
 const emptyCamera = () => ({ url: "", format: "auto", snapshotUrl: "" });
 const emptyCameras = () => ({ room: emptyCamera(), rgb: emptyCamera(), thermal: emptyCamera(), multispectral: emptyCamera() });
 
-=======
-import { Save } from "lucide-react";
-import { FACILITY_TYPES, FACILITY_TYPE_KEYS } from "../lib/facility";
-import { Spinner } from "./Spinner";
-
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 export const emptyFacility = {
   name: "",
   area: "",
@@ -35,35 +28,26 @@ export const emptyFacility = {
   areaSqm: "",
   desc: "",
   lightHours: "",
-<<<<<<< HEAD
   lightsOnAt: "",
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   generation: "",
   totalGenerations: "",
   cycleDays: "",
   cycleStartedAt: "",
-<<<<<<< HEAD
   sowingDate: "",
   // null = the type's default set, until someone ticks a box.
   equipment: null,
   phenoDevices: ["rgb_camera", "par_sensor"],
   cameras: emptyCameras(),
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 };
 
 const dateInput = (value) => (value ? new Date(value).toISOString().slice(0, 10) : "");
 
 export function facilityToForm(f) {
-<<<<<<< HEAD
   const cameras = emptyCameras();
   for (const role of Object.keys(cameras)) {
     const cam = f.cameras?.[role];
     if (cam?.url) cameras[role] = { url: cam.url, format: cam.format || "auto", snapshotUrl: cam.snapshotUrl || "" };
   }
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   return {
     name: f.name || "",
     type: f.type || "polyhouse",
@@ -73,21 +57,15 @@ export function facilityToForm(f) {
     areaSqm: f.areaSqm ?? "",
     desc: f.desc || "",
     lightHours: f.photoperiod?.lightHours ?? "",
-<<<<<<< HEAD
     lightsOnAt: f.photoperiod?.lightsOnAt ?? "",
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     generation: f.program?.generation ?? "",
     totalGenerations: f.program?.totalGenerations ?? "",
     cycleDays: f.program?.cycleDays ?? "",
     cycleStartedAt: dateInput(f.program?.cycleStartedAt),
-<<<<<<< HEAD
     sowingDate: dateInput(f.sowingDate),
     equipment: Array.isArray(f.equipment) ? f.equipment : null,
     phenoDevices: Array.isArray(f.phenoDevices) ? f.phenoDevices : [],
     cameras,
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   };
 }
 
@@ -100,16 +78,11 @@ export function formToPayload(form) {
     location: form.location,
     areaSqm: form.areaSqm,
     desc: form.desc,
-<<<<<<< HEAD
   };
   if (form.type !== "phenotyping") {
     payload.photoperiod = { lightHours: form.lightHours, lightsOnAt: form.lightsOnAt };
     if (form.equipment) payload.equipment = form.equipment;
   }
-=======
-    photoperiod: { lightHours: form.lightHours },
-  };
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   if (form.type === "speed_breeding") {
     payload.program = {
       generation: form.generation,
@@ -118,7 +91,6 @@ export function formToPayload(form) {
       cycleStartedAt: form.cycleStartedAt || undefined,
     };
   }
-<<<<<<< HEAD
   if (form.type === "phenotyping") {
     payload.sowingDate = form.sowingDate;
     payload.phenoDevices = form.phenoDevices;
@@ -132,8 +104,6 @@ export function formToPayload(form) {
     cameras[role] = fitted ? form.cameras[role] : { url: "" };
   }
   if (Object.keys(cameras).length) payload.cameras = cameras;
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   return payload;
 }
 
@@ -148,7 +118,6 @@ function Field({ id, label, children, hint }) {
   );
 }
 
-<<<<<<< HEAD
 function Section({ id, title, note, children }) {
   return (
     <motion.section
@@ -259,19 +228,14 @@ function ToggleCard({ active, onClick, icon: Icon, title, sub }) {
   );
 }
 
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 // `areas` is passed only for super admins, who choose the area; area
 // admins always create facilities in their own area.
 export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving, submitLabel, areas }) {
   const set = (key) => (e) => setForm((f) => ({ ...f, [key]: e.target.value }));
-<<<<<<< HEAD
   const setCamera = (role) => (value) => setForm((f) => ({ ...f, cameras: { ...f.cameras, [role]: value } }));
   const equipment = form.equipment || DEFAULT_EQUIPMENT[form.type] || [];
   const toggle = (list, key) => (list.includes(key) ? list.filter((k) => k !== key) : [...list, key]);
   const preview = schedulePreview(form.lightsOnAt, form.lightHours);
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   return (
     <form className="stack" onSubmit={onSubmit}>
@@ -287,11 +251,7 @@ export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving
               aria-checked={active}
               className={`type-option${active ? " is-active" : ""}`}
               style={{ "--tone": meta.tone }}
-<<<<<<< HEAD
               onClick={() => setForm((f) => ({ ...f, type: key, equipment: f.type === key ? f.equipment : null }))}
-=======
-              onClick={() => setForm((f) => ({ ...f, type: key }))}
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             >
               <meta.icon size={18} />
               <span>{meta.label}</span>
@@ -299,10 +259,7 @@ export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving
           );
         })}
       </div>
-<<<<<<< HEAD
       <p className="faint type-blurb">{FACILITY_TYPES[form.type].blurb}</p>
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
       {areas && (
         <Field id="f-area-id" label="Area">
@@ -323,7 +280,6 @@ export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving
         <input
           id="f-name"
           className="input"
-<<<<<<< HEAD
           placeholder={
             form.type === "speed_breeding"
               ? "e.g. Speed Breeding Room SB-01 · Wheat"
@@ -331,9 +287,6 @@ export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving
                 ? "e.g. Phenotyping Station PS-01"
                 : "e.g. Polyhouse B · Capsicum"
           }
-=======
-          placeholder="e.g. Polyhouse B · Capsicum"
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
           value={form.name}
           onChange={set("name")}
           required
@@ -345,29 +298,10 @@ export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving
           <input id="f-crop" className="input" placeholder="e.g. Wheat" value={form.crop} onChange={set("crop")} />
         </Field>
         <Field id="f-variety" label="Trial / variety">
-<<<<<<< HEAD
           <input id="f-variety" className="input" placeholder="e.g. Heat tolerance screen" value={form.variety} onChange={set("variety")} />
         </Field>
         <Field id="f-location" label="Location">
           <input id="f-location" className="input" placeholder="e.g. North block, Bay 2" value={form.location} onChange={set("location")} />
-=======
-          <input
-            id="f-variety"
-            className="input"
-            placeholder="e.g. Heat tolerance screen"
-            value={form.variety}
-            onChange={set("variety")}
-          />
-        </Field>
-        <Field id="f-location" label="Location">
-          <input
-            id="f-location"
-            className="input"
-            placeholder="e.g. North block, Bay 2"
-            value={form.location}
-            onChange={set("location")}
-          />
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         </Field>
         <Field id="f-area" label="Area" hint="(m²)">
           <input id="f-area" className="input" type="number" min="0" value={form.areaSqm} onChange={set("areaSqm")} />
@@ -386,7 +320,6 @@ export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving
       </Field>
 
       <AnimatePresence initial={false}>
-<<<<<<< HEAD
         {form.type === "speed_breeding" && (
           <Section key="camera" id="camera" title="Room camera" note="watch the room from its facility page">
             <CameraFields role="room" value={form.cameras.room} onChange={setCamera("room")} />
@@ -505,63 +438,6 @@ export default function FacilityForm({ form, setForm, onSubmit, onCancel, saving
         </p>
       )}
 
-=======
-        {form.type !== "polyhouse" && (
-          <motion.div
-            key="photoperiod"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            style={{ overflow: "hidden" }}
-          >
-            <Field id="f-light" label="Photoperiod" hint="(hours of light per day)">
-              <input
-                id="f-light"
-                className="input"
-                type="number"
-                min="0"
-                max="24"
-                placeholder={form.type === "speed_breeding" ? "22" : "12"}
-                value={form.lightHours}
-                onChange={set("lightHours")}
-              />
-            </Field>
-          </motion.div>
-        )}
-
-        {form.type === "speed_breeding" && (
-          <motion.div
-            key="program"
-            className="form-grid"
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            style={{ overflow: "hidden" }}
-          >
-            <Field id="f-gen" label="Current generation">
-              <input id="f-gen" className="input" type="number" min="0" value={form.generation} onChange={set("generation")} />
-            </Field>
-            <Field id="f-total" label="Target generations">
-              <input
-                id="f-total"
-                className="input"
-                type="number"
-                min="0"
-                value={form.totalGenerations}
-                onChange={set("totalGenerations")}
-              />
-            </Field>
-            <Field id="f-days" label="Days per cycle">
-              <input id="f-days" className="input" type="number" min="1" value={form.cycleDays} onChange={set("cycleDays")} />
-            </Field>
-            <Field id="f-start" label="Cycle started">
-              <input id="f-start" className="input" type="date" value={form.cycleStartedAt} onChange={set("cycleStartedAt")} />
-            </Field>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       <div className="modal-actions">
         <button type="button" className="btn btn-quiet" onClick={onCancel}>
           Cancel

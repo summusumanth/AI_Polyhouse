@@ -25,11 +25,8 @@ export default function MetricTile({
   tone = "var(--accent)",
   max = 100,
   target,
-<<<<<<< HEAD
   targetLabel = "target",
   note,
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   digits = 1,
   delay = 0,
 }) {
@@ -49,13 +46,9 @@ export default function MetricTile({
           <Icon size={18} />
         </span>
         {target !== undefined && target !== null && (
-<<<<<<< HEAD
           <span className="pill">
             {targetLabel} {target}
           </span>
-=======
-          <span className="pill">target {target}</span>
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         )}
       </div>
 
@@ -64,10 +57,7 @@ export default function MetricTile({
         {unit && <small>{unit}</small>}
       </div>
       <div className="metric-label">{label}</div>
-<<<<<<< HEAD
       {note && <div className="metric-note faint">{note}</div>}
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
       <div className="meter">
         <motion.span

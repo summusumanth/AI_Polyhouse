@@ -15,11 +15,7 @@ const requireFacility = (pick) =>
         message: `Unknown facility id "${id ?? ""}". Copy the id from the facility page.`,
       });
     }
-<<<<<<< HEAD
     const facility = await Polyhouse.findById(id).select("type photoperiod equipment").lean();
-=======
-    const facility = await Polyhouse.findById(id).select("type").lean();
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     if (!facility) {
       return res.status(404).json({
         status: "error",
@@ -28,10 +24,7 @@ const requireFacility = (pick) =>
     }
     req.facilityId = String(id);
     req.facilityType = facility.type || "polyhouse";
-<<<<<<< HEAD
     req.deviceFacility = { ...facility, type: req.facilityType };
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     next();
   });
 

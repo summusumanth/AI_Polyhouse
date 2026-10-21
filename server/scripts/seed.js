@@ -1,18 +1,11 @@
 /*
   Demo data for one area, Parlakhemundi:
 
-<<<<<<< HEAD
     Facilities  Polyhouse A to E           a week of climate readings, targets
                 Speed breeding SB-01, SB-02  all ten speed breeding sensors,
                                              fixed targets, photoperiod
                 Phenotyping PS-01, PB-01     PAR and stem sensors, and a
                                              phenotyping trial each
-=======
-    Facilities  Polyhouse A to E, a grow chamber and a speed breeding room,
-                each with a week of sensor readings and climate targets.
-                Polyhouse A, the chamber and the speed breeding room also
-                carry a phenotyping trial.
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
     People      Super Admin   super admin (all areas)
                 Sumanth       area admin of Parlakhemundi
@@ -42,10 +35,7 @@ const Polyhouse = require("../src/models/Polyhouse");
 const Reading = require("../src/models/Reading");
 const Threshold = require("../src/models/Threshold");
 const Phenotype = require("../src/models/Phenotype");
-<<<<<<< HEAD
 const ControlState = require("../src/models/ControlState");
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 const DAY_MS = 24 * 3600 * 1000;
 const STEP_MIN = 30;
@@ -84,10 +74,6 @@ const FACILITIES = [
   {
     key: "poly-a",
     kind: "polyhouse",
-<<<<<<< HEAD
-=======
-    trial: "polyhouse",
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     climate: { tempOffset: 0, humOffset: 0, dryAt: 38, refillTo: 68, thirst: 1 },
     targets: { re_temp: 30, re_humidity: 65, re_soilmoisture: 45 },
     doc: {
@@ -161,7 +147,6 @@ const FACILITIES = [
     },
   },
   {
-<<<<<<< HEAD
     key: "speed",
     kind: "speed",
     climate: { day: 21.4, night: 17, humidity: 66, light: 480, co2: 820 },
@@ -176,28 +161,6 @@ const FACILITIES = [
       re_substrate: 20,
       re_leafwet: 60,
     },
-=======
-    key: "chamber",
-    kind: "chamber",
-    trial: "chamber",
-    targets: { re_temp: 30, re_humidity: 75, re_soilmoisture: 25 },
-    doc: {
-      name: "Grow Chamber GC-02 · Rice drought",
-      type: "grow_chamber",
-      crop: "Rice",
-      variety: "Drought tolerance screen",
-      location: "Phytotron, Room 2",
-      areaSqm: 6,
-      desc: "Walk-in growth chamber with LED lighting and CO2 control. Water is withheld from day 28 to compare drought-tolerant and susceptible rice lines; irrigation only rescues pots below 25% soil moisture.",
-      photoperiod: { lightHours: 12 },
-    },
-  },
-  {
-    key: "speed",
-    kind: "speed",
-    trial: "speed",
-    targets: { re_temp: 22, re_humidity: 65, re_soilmoisture: 55 },
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     doc: {
       name: "Speed Breeding Room SB-01 · Wheat",
       type: "speed_breeding",
@@ -205,13 +168,8 @@ const FACILITIES = [
       variety: "Rapid generation advance",
       location: "Breeding wing, Room 1",
       areaSqm: 18,
-<<<<<<< HEAD
       desc: "22-hour photoperiod under full-spectrum LEDs at 22/17 °C to cycle wheat from seed to seed in about nine weeks, compressing six generations into one year. Lines move to Phenotyping Station PS-01 for measurement.",
       photoperiod: { lightHours: 22, lightsOnAt: "02:00" },
-=======
-      desc: "22-hour photoperiod under full-spectrum LEDs at 22/17 °C to cycle wheat from seed to seed in about nine weeks, compressing six generations into one year.",
-      photoperiod: { lightHours: 22 },
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       program: {
         generation: 3,
         totalGenerations: 6,
@@ -220,7 +178,6 @@ const FACILITIES = [
       },
     },
   },
-<<<<<<< HEAD
   {
     key: "speed-2",
     kind: "speed",
@@ -287,8 +244,6 @@ const FACILITIES = [
       phenoDevices: ["rgb_camera", "par_sensor", "thermal_camera", "stem_sensor", "weighing_scale"],
     },
   },
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 ];
 
 // Who gets what. Access entries refer to facility keys above.
@@ -324,26 +279,14 @@ function readingsFor(facility, facilityId) {
   const c = facility.climate || {};
   const rows = [];
 
-<<<<<<< HEAD
   let moisture = c.refillTo || 62;
   let tank = 92;
   let dayShift = 0;
   let stem = c.stem || 3;
-=======
-  let moisture = facility.kind === "chamber" ? 68 : c.refillTo || 62;
-  let N = 180;
-  let P = 62;
-  let K = 210;
-  let dayShift = 0;
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   for (let i = steps; i >= 0; i -= 1) {
     const date = new Date(end - i * STEP_MIN * 60 * 1000);
     const hour = date.getHours() + date.getMinutes() / 60;
-<<<<<<< HEAD
-=======
-    const progress = 1 - i / steps; // 0 at the start of the week, 1 now
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     if (date.getHours() === 0 && date.getMinutes() < STEP_MIN) dayShift = noise(1.5);
 
     let row;
@@ -356,7 +299,6 @@ function readingsFor(facility, facilityId) {
       moisture -= evapotranspiration * (STEP_MIN / 60);
       if (moisture < (c.dryAt || 38)) moisture = (c.refillTo || 68) + noise(2);
       row = {
-<<<<<<< HEAD
         temp: round(21 + (c.tempOffset || 0) + 12 * Math.pow(sun, 1.2) + dayShift + noise(0.6)),
         humidity: round(clamp(86 + (c.humOffset || 0) - 30 * sun + noise(2), 35, 97)),
         moisture: round(clamp(moisture, 0, 100)),
@@ -409,62 +351,6 @@ function readingsFor(facility, facilityId) {
     }
 
     rows.push({ polyhsid: facilityId, date, ...row });
-=======
-        temp: 21 + (c.tempOffset || 0) + 12 * Math.pow(sun, 1.2) + dayShift + noise(0.6),
-        humidity: clamp(86 + (c.humOffset || 0) - 30 * sun + noise(2), 35, 97),
-        moisture,
-        co2: 470 - 70 * sun + noise(10),
-      };
-    } else if (facility.kind === "chamber") {
-      // 12h LED day, tight climate control, and a deliberate drought.
-      const lightsOn = hour >= 6 && hour < 18;
-      moisture = 68 - 40 * progress + noise(0.6);
-      row = {
-        temp: (lightsOn ? 30 : 24) + noise(0.3),
-        humidity: 75 + noise(1.5),
-        moisture,
-        co2: 420 + noise(8),
-        lightInt: lightsOn ? 650 + noise(10) : 0,
-      };
-      N = 150 + noise(2);
-      P = 50 + noise(1);
-      K = 180 + noise(2);
-    } else {
-      // Speed breeding: lights off only 00:00-02:00.
-      const lightsOn = !(hour >= 0 && hour < 2);
-      moisture -= 0.5 * (STEP_MIN / 60);
-      if (moisture < 52) moisture = 65 + noise(1);
-      N -= 0.05;
-      P -= 0.015;
-      K -= 0.04;
-      row = {
-        temp: (lightsOn ? 22 : 17) + noise(0.4),
-        humidity: 68 + noise(2),
-        moisture,
-        co2: 430 + noise(10),
-        lightInt: lightsOn ? 480 + noise(10) : 0,
-      };
-    }
-
-    const reading = {
-      polyhsid: facilityId,
-      date,
-      temp: round(row.temp),
-      humidity: round(row.humidity),
-      moisture: round(clamp(row.moisture, 0, 100)),
-      co2: Math.round(row.co2),
-    };
-    // A polyhouse has no light or N-P-K sensor; only chambers record them.
-    if (facility.kind !== "polyhouse") {
-      Object.assign(reading, {
-        lightInt: Math.round(row.lightInt),
-        N: Math.round(N),
-        P: Math.round(P),
-        K: Math.round(K),
-      });
-    }
-    rows.push(reading);
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   }
   return rows;
 }
@@ -473,7 +359,6 @@ function readingsFor(facility, facilityId) {
 // Phenotyping trials
 // ----------------------------------------------------------------------
 
-<<<<<<< HEAD
 // Each trial: when it was sown, the days after sowing it was measured on,
 // the lines in it, and a growth model per trait. `vigor` scales growth;
 // `cooling` is how well a line keeps its canopy below air temperature
@@ -485,78 +370,11 @@ const TRIALS = {
     plotPrefix: "PS1",
     airTemp: 22,
     ppfd: 600,
-=======
-const TRIALS = {
-  polyhouse: {
-    startDaysAgo: 42,
-    days: [7, 14, 21, 28, 35, 42],
-    plotPrefix: "PH-A",
-    stages: {
-      7: "Vegetative",
-      14: "Vegetative",
-      21: "First truss",
-      28: "Flowering",
-      35: "Fruit set",
-      42: "Fruit development",
-    },
-    genotypes: [
-      { name: "Arka Rakshak", vigor: 1.08 },
-      { name: "Arka Samrat", vigor: 1.0 },
-      { name: "Abhinav", vigor: 0.95 },
-      { name: "Pusa Ruby", vigor: 0.86 },
-    ],
-    traits: (d, v) => ({
-      plantHeight: logistic(d, 170 * v, 0.12, 28),
-      leafCount: logistic(d, 28 * v, 0.1, 22),
-      leafArea: logistic(d, 5200 * v, 0.11, 28),
-      canopyCover: Math.min(95, logistic(d, 88 * v, 0.13, 24)),
-      ndvi: Math.min(0.88, 0.32 + 0.5 * Math.sqrt(v) * logistic(d, 1, 0.12, 18)),
-      spad: 38 + 14 * v * logistic(d, 1, 0.1, 20),
-      biomass: logistic(d, 1450 * v, 0.11, 32),
-    }),
-  },
-  chamber: {
-    startDaysAgo: 35,
-    days: [7, 14, 21, 28, 35],
-    plotPrefix: "GC2",
-    stages: {
-      7: "Seedling",
-      14: "Tillering",
-      21: "Tillering",
-      28: "Maximum tillering",
-      35: "Panicle initiation · drought",
-    },
-    // Tolerant lines hold their greenness once water is withheld.
-    genotypes: [
-      { name: "Sahbhagi Dhan", vigor: 0.98, tolerance: 0.95 },
-      { name: "N22", vigor: 0.9, tolerance: 0.93 },
-      { name: "IR64", vigor: 1.0, tolerance: 0.76 },
-      { name: "Swarna", vigor: 1.04, tolerance: 0.72 },
-    ],
-    traits: (d, v, g) => {
-      const stress = d > 28 ? g.tolerance : 1;
-      return {
-        plantHeight: logistic(d, 95 * v, 0.13, 20),
-        leafCount: logistic(d, 42 * v, 0.12, 18),
-        leafArea: logistic(d, 1800 * v, 0.12, 22) * stress,
-        canopyCover: Math.min(95, logistic(d, 80 * v, 0.13, 20)) * stress,
-        ndvi: Math.min(0.86, 0.3 + 0.52 * logistic(d, 1, 0.14, 14)) * stress,
-        spad: (36 + 10 * logistic(d, 1, 0.12, 16)) * (0.5 + 0.5 * stress),
-        biomass: logistic(d, 85 * v, 0.12, 24) * stress,
-      };
-    },
-  },
-  speed: {
-    startDaysAgo: 38,
-    days: [7, 14, 21, 28, 35],
-    plotPrefix: "SB1",
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     stages: {
       7: "BBCH 13 · 3 leaves",
       14: "BBCH 22 · Tillering",
       21: "BBCH 31 · Stem elongation",
       28: "BBCH 45 · Booting",
-<<<<<<< HEAD
       35: "BBCH 61 · Flowering",
     },
     genotypes: [
@@ -610,24 +428,6 @@ const TRIALS = {
       biomass: logistic(d, 1450 * g.vigor, 0.11, 32),
       fruitCount: d >= 35 ? (d - 30) * 1.4 * g.vigor : undefined,
       yieldWeight: d >= 48 ? 820 * Math.pow(g.vigor, 2) : undefined,
-=======
-      35: "BBCH 55 · Heading",
-    },
-    genotypes: [
-      { name: "HD 2967", vigor: 1.04 },
-      { name: "DBW 187", vigor: 1.0 },
-      { name: "PBW 343", vigor: 0.96 },
-      { name: "Kharchia 65", vigor: 0.9 },
-    ],
-    traits: (d, v) => ({
-      plantHeight: logistic(d, 88 * v, 0.14, 22),
-      leafCount: logistic(d, 14 * v, 0.15, 14),
-      leafArea: logistic(d, 420 * v, 0.14, 20),
-      canopyCover: Math.min(95, logistic(d, 82 * v, 0.15, 18)),
-      ndvi: Math.min(0.87, 0.3 + 0.55 * logistic(d, 1, 0.16, 14)),
-      spad: 40 + 12 * logistic(d, 1, 0.13, 16),
-      biomass: logistic(d, 22 * v, 0.13, 24),
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     }),
   },
 };
@@ -637,26 +437,18 @@ function observationsFor(trialKey, facilityId) {
   if (!trial) return [];
   const rand = rng(hash(trialKey) ^ 104729);
   const jitter = (value, pct) => value * (1 + (rand() - 0.5) * 2 * pct);
-<<<<<<< HEAD
   const keep = (value, places, pct = 0.03, lo = 0, hi = Infinity) =>
     value === undefined ? undefined : round(clamp(jitter(value, pct), lo, hi), places);
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   const rows = [];
 
   trial.genotypes.forEach((g, gi) => {
     for (const d of trial.days) {
-<<<<<<< HEAD
       const t = trial.traits(d, g);
       const airTemp = round(trial.airTemp + (rand() - 0.5));
-=======
-      const t = trial.traits(d, g.vigor, g);
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       rows.push({
         facility: facilityId,
         genotype: g.name,
         plot: `${trial.plotPrefix}/R${gi + 1}`,
-<<<<<<< HEAD
         date: daysAgo(trial.sownDaysAgo - d),
         growthStage: trial.stages[d],
         flowering: Boolean(g.floweringDay && d >= g.floweringDay),
@@ -673,17 +465,6 @@ function observationsFor(trialKey, facilityId) {
         biomass: keep(t.biomass, 1, 0.04),
         fruitCount: keep(t.fruitCount, 0, 0.08),
         yieldWeight: keep(t.yieldWeight, 0, 0.05),
-=======
-        date: daysAgo(trial.startDaysAgo - d),
-        growthStage: trial.stages[d],
-        plantHeight: round(jitter(t.plantHeight, 0.03)),
-        leafCount: Math.round(jitter(t.leafCount, 0.05)),
-        leafArea: Math.round(jitter(t.leafArea, 0.04)),
-        canopyCover: round(clamp(jitter(t.canopyCover, 0.03), 0, 100)),
-        ndvi: round(clamp(jitter(t.ndvi, 0.02), 0, 1), 2),
-        spad: round(jitter(t.spad, 0.03)),
-        biomass: round(jitter(t.biomass, 0.04)),
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         seeded: true,
       });
     }
@@ -711,31 +492,20 @@ async function seedFacilities(areaId) {
     await Promise.all([
       Reading.deleteMany({ polyhsid: id }),
       Threshold.deleteOne({ _id: id }),
-<<<<<<< HEAD
       ControlState.deleteOne({ _id: id }),
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       Phenotype.deleteMany({ facility: id, seeded: true }),
     ]);
     const readings = readingsFor(facility, id);
     const observations = facility.trial ? observationsFor(facility.trial, id) : [];
     await Promise.all([
       Reading.insertMany(readings),
-<<<<<<< HEAD
       // A phenotyping station controls nothing, so it has no targets.
       facility.targets ? Threshold.create({ _id: id, ...facility.targets }) : null,
-=======
-      Threshold.create({ _id: id, ...facility.targets }),
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       observations.length ? Phenotype.insertMany(observations) : null,
     ]);
 
     console.log(
-<<<<<<< HEAD
       `  ${doc.name.padEnd(40)} ${id}  ${readings.length} readings` +
-=======
-      `  ${doc.name.padEnd(36)} ${id}  ${readings.length} readings` +
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         (observations.length ? `, ${observations.length} observations` : "")
     );
   }
@@ -749,10 +519,7 @@ async function seedFacilities(areaId) {
     await Promise.all([
       Reading.deleteMany({ polyhsid: id }),
       Threshold.deleteOne({ _id: id }),
-<<<<<<< HEAD
       ControlState.deleteOne({ _id: id }),
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       Phenotype.deleteMany({ facility: id }),
       User.updateMany({}, { $pull: { access: { facility: f._id } } }),
       Polyhouse.deleteOne({ _id: f._id }),

@@ -6,7 +6,6 @@
 
   Every POLL_INTERVAL_MS (10 s):
     1. GET <API_BASE>/api/device/state/<facility id>
-<<<<<<< HEAD
     2. read the server's decision, one true/false per relay:
          fan, cooler, heater, vents, mister (humidifier / fogger),
          dehumidifier, irrigation, co2Valve, lights, shade
@@ -16,11 +15,6 @@
   and keeps the photoperiod clock, so the grow lights relay already
   follows the day/night schedule.
 
-=======
-    2. read the server's decision: { fan, cooler, mister, irrigation }
-    3. switch each relay to match
-
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   The server makes the decision by comparing the sensor node's latest reading
   with the targets set on the dashboard. The dashboard shows the exact same
   decision, so what you see on screen is what these relays are doing.
@@ -38,7 +32,6 @@
 
   Full explanation: arduino/README.md
 
-<<<<<<< HEAD
   Wiring: see the RELAYS table below. Set a pin to NO_PIN for any relay
   that is not wired. Relay VCC -> VIN (5 V), GND -> GND.
 
@@ -66,21 +59,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266HTTPClient.h>
 #endif
-=======
-  Wiring (fan, mister, irrigation unchanged from the original build)
-    Relay IN1  Exhaust fan ......... D1 (GPIO5)
-    Relay IN2  Fogger / mister ..... D2 (GPIO4)
-    Relay IN3  Drip irrigation ..... D4 (GPIO2)
-    Relay IN4  Evaporative cooler .. D5 (GPIO14)   new, optional
-    Relay VCC -> VIN (5 V)   GND -> GND
-
-  Board:     NodeMCU 1.0 (ESP-12E Module), ESP8266 core 3.x
-  Libraries: ArduinoJson 7
-*/
-
-#include <ESP8266WiFi.h>
-#include <ESP8266HTTPClient.h>
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 #include <WiFiClient.h>
 #include <ArduinoJson.h>
 
@@ -111,24 +89,16 @@ const int FAILSAFE_AFTER = 3;
 
 // ======================================================================
 
-<<<<<<< HEAD
 const int NO_PIN = -1;
 
 struct Relay {
   const char *key;    // name in the server's JSON
   const char *label;  // name on the Serial monitor
   int pin;            // NO_PIN = not wired
-=======
-struct Relay {
-  const char *key;    // name in the server's JSON
-  const char *label;  // name on the Serial monitor
-  uint8_t pin;
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   bool on;
   unsigned long offSince;
 };
 
-<<<<<<< HEAD
 // ======================================================================
 // RELAYS - which pin drives which relay
 // ======================================================================
@@ -164,14 +134,6 @@ Relay relays[] = {
   {"shade", "Shade screen", NO_PIN, false, 0},  // out of pins: use an ESP32
 };
 #endif
-=======
-Relay relays[] = {
-  {"fan", "Exhaust fan", D1, false, 0},
-  {"mister", "Mister", D2, false, 0},
-  {"irrigation", "Irrigation", D4, false, 0},
-  {"cooler", "Cooler", D5, false, 0},
-};
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 const int RELAY_COUNT = sizeof(relays) / sizeof(relays[0]);
 
 WiFiClient wifiClient;
@@ -179,10 +141,7 @@ unsigned long lastPoll = 0;
 int failedPolls = 0;
 
 void writePin(const Relay &r) {
-<<<<<<< HEAD
   if (r.pin == NO_PIN) return;
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   digitalWrite(r.pin, (r.on != RELAY_ACTIVE_LOW) ? HIGH : LOW);
 }
 
@@ -194,32 +153,20 @@ void setRelay(Relay &r, bool want) {
     r.on = false;
     r.offSince = millis();
     writePin(r);
-<<<<<<< HEAD
     Serial.printf("  %-13s -> OFF\n", r.label);
-=======
-    Serial.printf("  %-11s -> OFF\n", r.label);
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     return;
   }
 
   unsigned long offFor = millis() - r.offSince;
   if (offFor < MIN_OFF_MS) {
-<<<<<<< HEAD
     Serial.printf("  %-13s    wants ON, restart guard: %lu s left\n", r.label,
-=======
-    Serial.printf("  %-11s    wants ON, restart guard: %lu s left\n", r.label,
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
                   (MIN_OFF_MS - offFor) / 1000);
     return;
   }
 
   r.on = true;
   writePin(r);
-<<<<<<< HEAD
   Serial.printf("  %-13s -> ON\n", r.label);
-=======
-  Serial.printf("  %-11s -> ON\n", r.label);
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 }
 
 void allOff(const char *why) {
@@ -283,7 +230,6 @@ bool poll() {
     Serial.println("[poll] decision received");
   }
 
-<<<<<<< HEAD
   // A relay the server does not mention (not fitted on the facility) is
   // switched off.
   JsonObject decision = doc["actuators"];
@@ -295,12 +241,6 @@ bool poll() {
     Serial.printf("[poll] photoperiod %s-%s, lights %s\n", doc["photoperiod"]["on"] | "?",
                   doc["photoperiod"]["off"] | "?", doc["photoperiod"]["lightsOn"] ? "on" : "off");
   }
-=======
-  JsonObject decision = doc["actuators"];
-  for (int i = 0; i < RELAY_COUNT; i++) {
-    setRelay(relays[i], decision[relays[i].key] | false);
-  }
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   return true;
 }
 
@@ -312,11 +252,7 @@ void setup() {
   // Relays off before anything else, so a reboot never leaves a pump running.
   // offSince = now: the restart guard also applies after a power cut.
   for (int i = 0; i < RELAY_COUNT; i++) {
-<<<<<<< HEAD
     if (relays[i].pin != NO_PIN) pinMode(relays[i].pin, OUTPUT);
-=======
-    pinMode(relays[i].pin, OUTPUT);
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     relays[i].on = false;
     relays[i].offSince = millis();
     writePin(relays[i]);

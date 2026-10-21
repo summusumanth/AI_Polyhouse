@@ -1,13 +1,7 @@
-<<<<<<< HEAD
 # How the boards work, end to end
 
 A polyhouse or speed breeding room uses **two boards**. A phenotyping station
 uses the sensor node only: it measures, it never switches anything.
-=======
-# How the two NodeMCU boards work, end to end
-
-Each polyhouse uses **two NodeMCU (ESP8266) boards**:
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 | Board | Folder | Its only job |
 | --- | --- | --- |
@@ -33,10 +27,7 @@ Contents
 11. [Reading the Serial monitor](#11-reading-the-serial-monitor)
 12. [Settings you can tune](#12-settings-you-can-tune)
 13. [What changed from the old sketches](#13-what-changed-from-the-old-sketches)
-<<<<<<< HEAD
 14. [Speed breeding and phenotyping hardware](#14-speed-breeding-and-phenotyping-hardware)
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 ---
 
@@ -59,6 +50,7 @@ flowchart LR
     API["Node.js server"] -- "2. save" --> DB[("MongoDB")]
     API -- "3. decision<br/>every 10 s" --> B2
     API <--> UI["Dashboard"]
+
 ```
 
 The same thing as plain text:
@@ -108,22 +100,14 @@ Why the decision is made on the server, not on a board:
 | IN1 | Exhaust fan | **D1** (GPIO5) |
 | IN2 | Fogger / mister | **D2** (GPIO4) |
 | IN3 | Drip irrigation pump | **D4** (GPIO2) |
-<<<<<<< HEAD
 | IN4 | Evaporative cooler *(optional)* | **D5** (GPIO14) |
-=======
-| IN4 | Evaporative cooler *(optional, new)* | **D5** (GPIO14) |
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 | VCC | | VIN (5 V) |
 | GND | | GND |
 
 D1, D2 and D4 are the pins your original build used, so existing wiring
-<<<<<<< HEAD
 works unchanged. Relays you do not have can stay unconnected; nothing breaks.
 A speed breeding room's full set of ten relays is in
 [section 14](#14-speed-breeding-and-phenotyping-hardware).
-=======
-works unchanged. If you have no cooler, leave IN4 unconnected; nothing breaks.
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 > **Power the motors separately.** The relay only switches the motor's own
 > supply. Never power a pump or fan from the NodeMCU. For mains (230 V)
@@ -216,18 +200,11 @@ When the POST arrives (`server/src/controllers/deviceController.js`):
 2. **Facility check.** The `polyhsid` must be a real facility, otherwise
    `404`. This stops a typo in the firmware from quietly filing readings
    under a facility nobody can see.
-<<<<<<< HEAD
 3. **Value check** (`server/src/lib/readings.js`). For a polyhouse or speed
    breeding room, temperature, humidity and moisture are required. Every
    value must be a real number in a plausible range (the ranges are in
    `server/src/lib/channels.js`, e.g. temperature −20 to 70 °C, tank level 0
    to 100 %). Anything else gets `400` with the reason.
-=======
-3. **Value check** (`server/src/lib/readings.js`). Temperature, humidity and
-   moisture are required and must be real numbers in a plausible range
-   (temperature −20 to 70 °C, humidity and moisture 0 to 100 %). Anything
-   else gets `400` with the reason.
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 4. **Save** the reading to MongoDB, collection `sensor_info`, stamped with
    the current time.
 
@@ -241,7 +218,6 @@ charts it, and the next decision is based on it.
 File: `server/src/lib/control.js`. This is the **only** place in the whole
 system where motor decisions are made.
 
-<<<<<<< HEAD
 It compares the **latest reading** with the **fixed targets** you set on the
 dashboard (Facility page → Targets & control), and the light schedule:
 
@@ -261,19 +237,6 @@ dashboard (Facility page → Targets & control), and the light schedule:
 Otherwise each relay is OFF. The gaps between ON and OFF (the dead bands)
 stop opposing relays fighting and stop a relay chattering on the target.
 Only relays ticked as fitted on the facility are sent.
-=======
-It compares the **latest reading** with the **targets** you set on the
-dashboard (Facility page → Climate → Target climate):
-
-| Motor | Turns ON when | Why |
-| --- | --- | --- |
-| Exhaust fan | temperature **>** target | Push hot air out |
-| Evaporative cooler | temperature **>** target **+ 3 °C** | The fan alone is not enough |
-| Fogger / mister | humidity **<** target | Air too dry, add moisture |
-| Drip irrigation | soil moisture **<** target | Soil too dry, water it |
-
-Otherwise each motor is OFF.
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 ### When the server refuses to decide
 
@@ -483,11 +446,7 @@ run `ipconfig` and use the IPv4 address of the WiFi adapter.
 
 1. **Sensor board** Serial monitor shows `[send] stored (201)` every 30 s.
 2. **Dashboard** facility page shows "updated a few seconds ago".
-<<<<<<< HEAD
 3. **Set targets** on the dashboard (facility page → Targets & control).
-=======
-3. **Set targets** on the dashboard (Climate → Target climate).
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 4. **Motor board** Serial monitor shows `[poll] decision received` and the
    relays it switches.
 5. **Dashboard** Relays panel matches what the relays are doing.
@@ -566,7 +525,6 @@ Tools → Serial Monitor, **115200 baud**.
 | `FAILSAFE_AFTER` | `motor_node.ino` | 3 | Failed polls before all OFF |
 | `RELAY_ACTIVE_LOW` | `motor_node.ino` | false | Relay direction |
 | `STALE_AFTER_MS` | `server/src/lib/control.js` | 5 min | How old a reading may be before motors go off |
-<<<<<<< HEAD
 | `BANDS` | `server/src/lib/control.js` | see section 5 | Dead bands for heater, cooler, humidity, CO₂, light, shade |
 | `DEFAULT_WATER_MIN_PCT` | `server/src/lib/control.js` | 10 % | Tank level that holds the pump off when no minimum target is set |
 | `PAR_UMOL_PER_VOLT` | `sensor_node.ino` | 1000 | PAR sensor scale, from its datasheet |
@@ -575,9 +533,6 @@ Tools → Serial Monitor, **115200 baud**.
 | `FLOW_PULSES_PER_LITRE` | `sensor_node.ino` | 450 | Flow sensor calibration |
 | `STEM_ZERO_MM`, `STEM_MM_PER_VOLT` | `sensor_node.ino` | 0, 5 | Stem sensor calibration |
 | `TIMEZONE` | `server/.env` | this computer's | Zone the photoperiod schedule runs in |
-=======
-| `COOLER_MARGIN_C` | `server/src/lib/control.js` | 3 °C | How far above target before the cooler joins the fan |
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 | Targets | Dashboard | per polyhouse | The values everything is compared with |
 | `DEVICE_KEY` | `server/.env` + both sketches | empty | Shared secret so only your boards can send |
 
@@ -599,7 +554,6 @@ their jobs.
 | `datarecjs4` | **Did not compile** on current libraries (ArduinoJson 5 API, removed `http.begin(url)`). Compared the values itself, so it could disagree with the dashboard. Printed "valve2 On" when it switched the valve off. Only 3 relays. | `motor_node`: follows the server's decision, failsafe, restart guard, 4 relays, correct messages |
 | `sensornode` | A one-board design, not your setup | Removed |
 | Server | Kept deciding from the last reading forever if the sensor board went silent | Motors go off when the latest reading is over 5 minutes old |
-<<<<<<< HEAD
 
 ---
 
@@ -666,6 +620,3 @@ regulator, on a low-voltage coil.
 
 Cameras are not wired to either board. Give each one's URL on the facility
 (**Edit details**): see "Cameras" in the main [README](../README.md).
-
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f

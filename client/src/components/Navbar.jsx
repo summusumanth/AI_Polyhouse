@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { AnimatePresence, motion } from "framer-motion";
-<<<<<<< HEAD
 import { LogOut, Menu, X } from "lucide-react";
 import { useAuth } from "../lib/auth";
 import { isAdmin, roleLine } from "../lib/roles";
@@ -9,14 +8,6 @@ import { BrandMark, BrandWordmark } from "./Brand";
 import Modal from "./Modal";
 import ChangePassword from "./ChangePassword";
 import ThemeToggle from "./ThemeToggle";
-=======
-import { Leaf, LogOut, Menu, X } from "lucide-react";
-import { useAuth } from "../lib/auth";
-import { isAdmin, roleLine } from "../lib/roles";
-import ThemeToggle from "./ThemeToggle";
-import Modal from "./Modal";
-import ChangePassword from "./ChangePassword";
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 function linksFor(user) {
   if (!user) {
@@ -27,12 +18,8 @@ function linksFor(user) {
   }
   return [
     { to: "/dashboard", label: "Control room" },
-<<<<<<< HEAD
     { to: "/speed-breeding", label: "Speed breeding" },
     { to: "/phenotyping", label: "Phenotyping" },
-=======
-    { to: "/breeding", label: "Speed breeding & Phenotyping" },
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     ...(isAdmin(user) ? [{ to: "/team", label: "Team" }] : []),
     { to: "/", label: "Overview" },
   ];
@@ -50,15 +37,11 @@ function AccountModal({ open, onClose, user }) {
           <div className="faint">{roleLine(user)}</div>
         </div>
       </div>
-<<<<<<< HEAD
       <div style={{ marginTop: 18 }}>
         <ThemeToggle />
       </div>
 
       <h3 className="panel-subtitle" style={{ margin: "20px 0 0" }}>
-=======
-      <h3 className="panel-subtitle" style={{ margin: "18px 0 0" }}>
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
         Change password
       </h3>
       <div style={{ marginTop: 10 }}>
@@ -86,7 +69,6 @@ export default function Navbar() {
     <header className="nav">
       <div className="wrap">
         <div className="nav-inner">
-<<<<<<< HEAD
           <Link to={user ? "/dashboard" : "/"} className="brand" aria-label="Polyhouse, AI-powered smart agriculture">
             <motion.span
               initial={{ scale: 0.6, opacity: 0 }}
@@ -103,22 +85,6 @@ export default function Navbar() {
           </Link>
 
           <nav className="nav-links nav-desktop">
-=======
-          <Link to={user ? "/dashboard" : "/"} className="brand">
-            <motion.span
-              className="brand-mark"
-              initial={{ scale: 0.6, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: "spring", stiffness: 220, damping: 18 }}
-            >
-              <Leaf size={19} />
-            </motion.span>
-            Polyhouse
-          </Link>
-
-          <nav className="nav-links nav-desktop">
-            <ThemeToggle />
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             {links.map((link) => (
               <NavLink
                 key={link.to}
@@ -147,10 +113,6 @@ export default function Navbar() {
           </nav>
 
           <div className="row nav-mobile-actions" style={{ gap: 8 }}>
-<<<<<<< HEAD
-=======
-            <ThemeToggle />
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
             <button
               className="nav-toggle"
               onClick={() => setOpen((v) => !v)}

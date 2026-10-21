@@ -141,13 +141,8 @@ export default function Team() {
   }, [load]);
 
   const facilitiesById = useMemo(() => Object.fromEntries(facilities.map((f) => [f._id, f])), [facilities]);
-<<<<<<< HEAD
   // Polyhouses first (A, B, C...), then speed breeding, then phenotyping.
   const TYPE_ORDER = ["polyhouse", "speed_breeding", "phenotyping"];
-=======
-  // Polyhouses first (A, B, C...), then grow chambers, then speed breeding.
-  const TYPE_ORDER = ["polyhouse", "grow_chamber", "speed_breeding"];
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   const facilitiesIn = (areaId) =>
     facilities
       .filter((f) => String(f.area) === String(areaId))

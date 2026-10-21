@@ -5,7 +5,6 @@
   Job: measure the growing space and report it. Nothing else.
   This board has no relays and never switches anything.
 
-<<<<<<< HEAD
   Works in a polyhouse, a speed breeding room or a phenotyping station. The
   only difference is which sensors you fit: switch each one on below and
   the board reports that channel, leave it off and the server simply has no
@@ -24,13 +23,6 @@
   A phenotyping station uses the PAR sensor, the DHT22/SHT31 (for canopy
   minus air temperature) and, optionally, an electronic stem-diameter sensor.
 
-=======
-  Works in a polyhouse, a grow chamber or a speed breeding room. The only
-  difference is which sensors you fit: switch each one on below and the
-  board reports that channel, leave it off and the server simply has no
-  reading for it (and offers no relay that depends on it).
-
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   Every REPORT_INTERVAL_MS (30 s):
     1. read whichever sensors are enabled
     2. POST them as JSON to <API_BASE>/api/device/readings
@@ -50,7 +42,6 @@
     SCD41    CO2, and a second temp/RH    (addr 0x62)
     SHT31    accurate temp/RH             (addr 0x44)
 
-<<<<<<< HEAD
     ADS1115  4-channel analog input      (addr 0x48), carries:
                A0 leaf wetness sensor
                A1 PAR quantum sensor (0-2.5 V or 0-5 V output)
@@ -72,14 +63,6 @@
 
   The ESP8266 has only one analog pin and the soil probe uses it, which is
   why the other analog sensors go through the ADS1115.
-=======
-  Optional, RS485 (soil N-P-K probe through a MAX485 board)
-    MAX485 RO->D5 (GPIO14)   DI->D6 (GPIO12)   DE+RE joined->D7 (GPIO13)
-    MAX485 A/B -> probe A/B.  Probe needs 9-24 V, NOT the NodeMCU 3V3.
-
-  The ESP8266 has only one analog pin and the soil probe uses it, which is
-  why every added sensor here is I2C or RS485.
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   ---------------------------------------------------------------------
   LIBRARIES (Arduino IDE -> Manage Libraries)
@@ -89,15 +72,11 @@
     BH1750 by Christopher Laws                     if HAS_LIGHT
     Sensirion I2C SCD4x (v1.1+)                    if HAS_CO2
     Adafruit SHT31 Library                         if HAS_SHT31
-<<<<<<< HEAD
     OneWire + DallasTemperature                    if HAS_SUBSTRATE_TEMP
     Adafruit ADS1X15                               if HAS_LEAF_WETNESS,
                                                    HAS_PAR_SENSOR or
                                                    HAS_STEM_SENSOR
   Nothing extra is needed for RS485, flow or the ultrasonic sensor.
-=======
-  Nothing extra is needed for RS485: SoftwareSerial ships with the core.
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   Board: NodeMCU 1.0 (ESP-12E Module), ESP8266 core 3.x
 */
@@ -106,7 +85,6 @@
 // WHICH SENSORS ARE FITTED  -  set to 1 for each one you have
 // ======================================================================
 
-<<<<<<< HEAD
 #define HAS_SOIL 1            // soil moisture probe on A0 (polyhouse, speed breeding)
 #define HAS_LIGHT 0           // BH1750 light sensor (a PPFD estimate)
 #define HAS_PAR_SENSOR 0      // PAR quantum sensor on ADS1115 A1 (true PPFD)
@@ -126,12 +104,6 @@
 #if HAS_NPK && (HAS_FLOW || HAS_WATER_LEVEL)
 #error "The N-P-K probe uses D5-D7, the same pins as the flow and level sensors. Use one or the other."
 #endif
-=======
-#define HAS_LIGHT 0  // BH1750 light sensor
-#define HAS_CO2 0    // SCD41 CO2 sensor
-#define HAS_SHT31 0  // SHT31 temperature/humidity (replaces the DHT22)
-#define HAS_NPK 0    // RS485 soil N-P-K probe
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 // ======================================================================
 // SETTINGS  -  copy from the dashboard: facility page > Device setup
@@ -161,7 +133,6 @@ const int SOIL_RAW_WET = 300;
 // This is an approximation: a real PAR meter is the accurate instrument.
 const float LUX_TO_PPFD = 0.0185;
 
-<<<<<<< HEAD
 // PAR quantum sensor: µmol/m²/s per volt of output. Check the datasheet:
 //   0-2.5 V for 0-2500 µmol/m²/s (e.g. Apogee SQ-214)  -> 1000
 //   0-5 V   for 0-2000 µmol/m²/s                        -> 400
@@ -185,8 +156,6 @@ const float FLOW_PULSES_PER_LITRE = 450.0;
 const float STEM_ZERO_MM = 0.0;
 const float STEM_MM_PER_VOLT = 5.0;
 
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 const unsigned long REPORT_INTERVAL_MS = 30000;
 
 // ======================================================================
@@ -197,18 +166,13 @@ const unsigned long REPORT_INTERVAL_MS = 30000;
 #include <ArduinoJson.h>
 #include <DHT.h>
 
-<<<<<<< HEAD
 #define USES_ADS (HAS_LEAF_WETNESS || HAS_PAR_SENSOR || HAS_STEM_SENSOR)
 
 #if HAS_LIGHT || HAS_CO2 || HAS_SHT31 || USES_ADS
-=======
-#if HAS_LIGHT || HAS_CO2 || HAS_SHT31
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 #include <Wire.h>
 #define USES_I2C 1
 #endif
 
-<<<<<<< HEAD
 #if USES_ADS
 #include <Adafruit_ADS1X15.h>
 Adafruit_ADS1115 ads;
@@ -234,8 +198,6 @@ unsigned long flowCountedSince = 0;
 IRAM_ATTR void onFlowPulse() { flowPulses++; }
 #endif
 
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 #if HAS_LIGHT
 #include <BH1750.h>
 BH1750 lightMeter;
@@ -274,10 +236,7 @@ unsigned long lastReport = 0;
 bool lightReady = false;
 bool co2Ready = false;
 bool sht31Ready = false;
-<<<<<<< HEAD
 bool adsReady = false;
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
 // ----------------------------------------------------------------------
 // WiFi
@@ -356,7 +315,6 @@ bool readNPK(int &n, int &p, int &k) {
 #endif
 
 // ----------------------------------------------------------------------
-<<<<<<< HEAD
 // Water: tank level and flow (optional)
 // ----------------------------------------------------------------------
 
@@ -412,8 +370,6 @@ float adsVolts(uint8_t channel) {
 #endif
 
 // ----------------------------------------------------------------------
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 // Start the optional sensors
 // ----------------------------------------------------------------------
 
@@ -443,7 +399,6 @@ void startSensors() {
   Serial.printf("[init] SHT31 temp/humidity: %s\n", sht31Ready ? "ready" : "NOT FOUND");
 #endif
 
-<<<<<<< HEAD
 #if USES_ADS
   adsReady = ads.begin(0x48);
   ads.setGain(GAIN_ONE);  // ±4.096 V range
@@ -469,8 +424,6 @@ void startSensors() {
   Serial.println("[init] YF-S201 flow sensor: counting");
 #endif
 
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 #if HAS_NPK
   rs485.begin(4800); // the usual baud rate for these probes
   pinMode(RS485_DE, OUTPUT);
@@ -509,15 +462,10 @@ void report() {
     }
   }
 
-<<<<<<< HEAD
 #if HAS_SOIL
   int soilRaw = 0;
   float moisture = readSoilMoisture(soilRaw);
 #endif
-=======
-  int soilRaw = 0;
-  float moisture = readSoilMoisture(soilRaw);
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 
   if (isnan(temp) || isnan(humidity)) {
     // Sending NaN would only be rejected. Skipping means the server's
@@ -530,7 +478,6 @@ void report() {
   doc["polyhsid"] = FACILITY_ID;
   doc["temp"] = round(temp * 10) / 10.0;
   doc["humidity"] = round(humidity * 10) / 10.0;
-<<<<<<< HEAD
   Serial.printf("[read] temp %.1f C | humidity %.1f %%", temp, humidity);
 
 #if HAS_SOIL
@@ -547,14 +494,6 @@ void report() {
     Serial.printf(" | PAR %.3f V = %.0f PPFD", v, ppfd);
   }
 #elif HAS_LIGHT
-=======
-  doc["moisture"] = round(moisture * 10) / 10.0;
-
-  Serial.printf("[read] temp %.1f C | humidity %.1f %% | soil %.1f %% (raw %d)", temp, humidity,
-                moisture, soilRaw);
-
-#if HAS_LIGHT
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   if (lightReady) {
     float lux = lightMeter.readLightLevel();
     if (lux >= 0) {
@@ -579,7 +518,6 @@ void report() {
   }
 #endif
 
-<<<<<<< HEAD
 #if HAS_SUBSTRATE_TEMP
   substrateProbe.requestTemperatures();
   float rootC = substrateProbe.getTempCByIndex(0);
@@ -628,8 +566,6 @@ void report() {
   }
 #endif
 
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 #if HAS_NPK
   int n = 0, p = 0, k = 0;
   if (readNPK(n, p, k)) {

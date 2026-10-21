@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
   <defs>
     <linearGradient id="lf" x1="0" y1="0" x2="1" y2="1">
@@ -21,9 +20,4 @@
     <ellipse cx="74" cy="83" rx="5" ry="2.6" transform="rotate(-28 74 83)" fill="#3fae46"/>
   </g>
   <path d="M12 96 C34 84 56 100 78 90 C90 84 100 86 108 92 L108 102 C92 95 84 97 74 101 C52 110 30 98 12 104 Z" fill="#2e9e4f"/>
-=======
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
-  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 </svg>

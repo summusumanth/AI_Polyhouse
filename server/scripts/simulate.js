@@ -9,16 +9,10 @@
     npm run simulate -- <facility-id>         one reading, then exit
 
   Readings follow each facility's regime: the sun drives a polyhouse, a
-<<<<<<< HEAD
   speed breeding room follows its photoperiod and reports all ten of its
   sensors, and a phenotyping station reports PAR, air and stem diameter.
   Each value drifts from the facility's latest stored reading, so live data
   continues the seeded history smoothly.
-=======
-  grow chamber follows its LED photoperiod, and a speed breeding room is lit
-  for all but a couple of hours. Each value drifts from the facility's
-  latest stored reading, so live data continues the seeded history smoothly.
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 */
 
 const mongoose = require("mongoose");
@@ -48,7 +42,6 @@ const approach = (from, to, rate, jitter) => from + (to - from) * rate + noise(j
 
 // What the climate is heading toward right now, for this kind of facility.
 function regime(facility, hour) {
-<<<<<<< HEAD
   const sun = Math.max(0, Math.sin((Math.PI * (hour - 6)) / 12));
 
   if (facility.type === "speed_breeding") {
@@ -68,19 +61,6 @@ function regime(facility, hour) {
     const lit = hour >= 6 && hour < 20;
     return { temp: lit ? 22 : 18, humidity: lit ? 56 : 70, light: lit ? 600 : 0 };
   }
-=======
-  const lightHours = facility.photoperiod?.lightHours ?? 12;
-
-  if (facility.type === "speed_breeding") {
-    const lit = hour >= 24 - lightHours;
-    return { temp: lit ? 22 : 17, humidity: 68, light: lit ? 480 : 0, co2: 430 };
-  }
-  if (facility.type === "grow_chamber") {
-    const lit = hour >= 6 && hour < 6 + lightHours;
-    return { temp: lit ? 30 : 24, humidity: 75, light: lit ? 650 : 0, co2: 420 };
-  }
-  const sun = Math.max(0, Math.sin((Math.PI * (hour - 6)) / 12));
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
   return { temp: 21 + 12 * sun, humidity: 86 - 30 * sun, light: 1350 * sun, co2: 470 - 70 * sun };
 }
 
@@ -88,7 +68,6 @@ function nextReading(facility, prev) {
   const now = new Date();
   const hour = now.getHours() + now.getMinutes() / 60;
   const target = regime(facility, hour);
-<<<<<<< HEAD
   const p = prev || { temp: target.temp, humidity: target.humidity, moisture: 55, waterLevel: 90, stemDia: 3 };
 
   const reading = {
@@ -123,29 +102,6 @@ function nextReading(facility, prev) {
       waterLevel: Math.round(clamp(tank, 0, 100)),
       flowRate: Number(flow.toFixed(2)),
       leafWetness: Math.round(clamp(approach(p.leafWetness ?? target.wet, target.wet, 0.2, 2), 0, 100)),
-=======
-  const p = prev || { temp: target.temp, humidity: target.humidity, moisture: 55, N: 160, P: 55, K: 190 };
-
-  // Soil dries steadily and is topped up by irrigation below 40%.
-  let moisture = (p.moisture ?? 55) - 0.15 + noise(0.1);
-  if (moisture < 40) moisture = 66;
-
-  const reading = {
-    polyhsid: String(facility._id),
-    temp: Number(clamp(approach(p.temp, target.temp, 0.2, 0.3), -5, 50).toFixed(1)),
-    humidity: Number(clamp(approach(p.humidity, target.humidity, 0.2, 1), 20, 99).toFixed(1)),
-    moisture: Number(clamp(moisture, 0, 100).toFixed(1)),
-    co2: Math.round(approach(p.co2 ?? target.co2, target.co2, 0.3, 6)),
-  };
-
-  // A polyhouse sensor board has no light or N-P-K sensor.
-  if (facility.type !== "polyhouse") {
-    Object.assign(reading, {
-      lightInt: Math.round(Math.max(0, target.light + noise(target.light ? 12 : 0))),
-      N: Math.round(clamp((p.N ?? 160) - 0.02, 40, 400)),
-      P: Math.round(clamp((p.P ?? 55) - 0.01, 10, 200)),
-      K: Math.round(clamp((p.K ?? 190) - 0.02, 40, 400)),
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     });
   }
   return reading;
@@ -172,16 +128,11 @@ async function tick(facilities, last) {
       last.set(id, reading);
       console.log(
         `  ${facility.name.slice(0, 34).padEnd(34)}  ${String(reading.temp).padStart(5)} °C  ` +
-<<<<<<< HEAD
           `${String(reading.humidity).padStart(5)} %RH` +
           (reading.moisture !== undefined ? `  soil ${reading.moisture}%` : "") +
           (reading.lightInt !== undefined ? `  PPFD ${reading.lightInt}` : "") +
           (reading.waterLevel !== undefined ? `  tank ${reading.waterLevel}%` : "") +
           (reading.stemDia !== undefined ? `  stem ${reading.stemDia} mm` : "")
-=======
-          `${String(reading.humidity).padStart(5)} %RH  soil ${reading.moisture}%` +
-          (reading.lightInt !== undefined ? `  light ${reading.lightInt}` : "")
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
       );
     } catch (error) {
       const unreachable = /fetch failed|ECONNREFUSED/.test(error.message);

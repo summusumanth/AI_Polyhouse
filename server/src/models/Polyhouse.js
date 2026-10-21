@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 
-<<<<<<< HEAD
 // One growing or measuring space. Kept in the original "polyhouse"
 // collection so ids that are already flashed into sensor nodes stay valid.
 //
@@ -83,14 +82,6 @@ const cameraSchema = new mongoose.Schema(
   { _id: false }
 );
 
-=======
-// One controlled-growing space: a polyhouse, a grow chamber or a speed
-// breeding room. Kept in the original "polyhouse" collection so ids that are
-// already flashed into sensor nodes stay valid.
-const FACILITY_TYPES = ["polyhouse", "grow_chamber", "speed_breeding"];
-const FACILITY_STATUSES = ["active", "maintenance", "idle"];
-
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
 const polyhouseSchema = new mongoose.Schema(
   {
     name: { type: String, required: true, trim: true },
@@ -106,7 +97,6 @@ const polyhouseSchema = new mongoose.Schema(
     location: { type: String, trim: true, default: "" },
     areaSqm: { type: Number, min: 0 },
 
-<<<<<<< HEAD
     // The light schedule the grow lights follow (the "RTC" controller).
     // Lights come on at lightsOnAt (HH:MM, server TIMEZONE) and stay on for
     // lightHours. Speed breeding typically runs 22 h on, 2 h off.
@@ -118,13 +108,6 @@ const polyhouseSchema = new mongoose.Schema(
     // Relays fitted (see EQUIPMENT). Unset means the type's default set.
     equipment: { type: [{ type: String, enum: EQUIPMENT }], default: undefined },
 
-=======
-    // Hours of light per 24h cycle. Speed breeding typically runs 22.
-    photoperiod: {
-      lightHours: { type: Number, min: 0, max: 24 },
-    },
-
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     // Generation tracking for speed breeding programmes.
     program: {
       generation: { type: Number, min: 0 },
@@ -133,7 +116,6 @@ const polyhouseSchema = new mongoose.Schema(
       cycleDays: { type: Number, min: 1 },
     },
 
-<<<<<<< HEAD
     // Phenotyping: when the plants under measurement were sown, so the
     // portal can work out flowering time in days after sowing.
     sowingDate: { type: Date },
@@ -146,8 +128,6 @@ const polyhouseSchema = new mongoose.Schema(
       multispectral: cameraSchema,
     },
 
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
     // Marks rows created by scripts/seed.js so a re-seed never touches real data.
     seeded: { type: Boolean, default: false, index: true },
   },
@@ -159,12 +139,9 @@ const Polyhouse = mongoose.model("Polyhouse", polyhouseSchema);
 module.exports = Polyhouse;
 module.exports.FACILITY_TYPES = FACILITY_TYPES;
 module.exports.FACILITY_STATUSES = FACILITY_STATUSES;
-<<<<<<< HEAD
 module.exports.CAMERA_FORMATS = CAMERA_FORMATS;
 module.exports.CAMERA_ROLES = CAMERA_ROLES;
 module.exports.PHENO_DEVICES = PHENO_DEVICES;
 module.exports.EQUIPMENT = EQUIPMENT;
 module.exports.DEFAULT_EQUIPMENT = DEFAULT_EQUIPMENT;
 module.exports.equipmentOf = equipmentOf;
-=======
->>>>>>> ee744716751d2654dd89556decc4cd4e969d7d8f
