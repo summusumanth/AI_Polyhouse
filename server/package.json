@@ -1,0 +1,31 @@
+{
+  "name": "polyhouse-server",
+  "version": "2.0.0",
+  "description": "Polyhouse monitoring REST API (Node + Express + MongoDB)",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "seed": "node scripts/seed.js",
+    "simulate": "node scripts/simulate.js",
+    "create-super-admin": "node scripts/create-super-admin.js",
+    "fetch-models": "node scripts/fetch-models.js",
+    "bootstrap": "node scripts/create-super-admin.js"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "json2csv": "^5.0.7",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.5.1",
+    "morgan": "^1.10.0",
+    "multer": "^2.4.0",
+    "onnxruntime-node": "^1.30.0",
+    "sharp": "^0.35.5"
+  }
+}

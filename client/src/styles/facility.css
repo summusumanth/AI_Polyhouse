@@ -1,0 +1,637 @@
+/* ----------------------------------------------------------------
+   Speed breeding rooms, phenotyping stations and their cameras
+   ---------------------------------------------------------------- */
+
+/* Cameras -------------------------------------------------------- */
+.camera {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  height: 100%;
+}
+
+.camera-frame {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-sm);
+  background: #050b08;
+}
+
+.camera-compact,
+.camera-compact .camera-frame {
+  height: 100%;
+  aspect-ratio: auto;
+  border-radius: inherit;
+}
+
+.camera-frame img,
+.camera-frame video,
+.camera-frame iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: contain;
+  background: #050b08;
+}
+
+.camera-live {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(5, 11, 8, 0.66);
+  color: #d1fae5;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}
+
+.camera-live .dot {
+  color: #f43f5e;
+}
+
+.camera-caption {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+.camera-empty {
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 6px;
+  height: 100%;
+  min-height: 180px;
+  padding: 20px;
+  text-align: center;
+  color: #9fb8ad;
+  background: repeating-linear-gradient(135deg, #07130d 0 12px, #0a1912 12px 24px);
+}
+
+.camera-empty strong {
+  color: #e2f5ec;
+}
+
+.detail-hero-camera {
+  overflow: hidden;
+}
+
+.camera-grid {
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+.camera-grid-one {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.camera-grid-one .camera-panel {
+  max-width: 1100px;
+}
+
+.camera-panel {
+  padding: 14px;
+}
+
+.room-camera {
+  width: 260px;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.room-body-camera {
+  grid-template-columns: auto auto minmax(0, 1fr);
+}
+
+/* Camera fields in the facility form ------------------------------ */
+.camera-fields {
+  display: grid;
+  gap: 10px;
+  width: 100%;
+}
+
+.camera-fields-main {
+  grid-template-columns: minmax(0, 1.7fr) minmax(0, 1fr);
+}
+
+.camera-help {
+  font-size: 0.78rem;
+  margin-top: -2px;
+}
+
+.mono-input {
+  font-family: var(--mono);
+  font-size: 0.82rem;
+}
+
+/* Facility form sections ----------------------------------------- */
+.type-blurb {
+  margin-top: -6px;
+  font-size: 0.82rem;
+}
+
+.form-section {
+  display: grid;
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--border);
+}
+
+.form-section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.form-section-head .panel-subtitle {
+  margin: 0;
+}
+
+.toggle-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 8px;
+}
+
+.toggle-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  color: var(--text-dim);
+  font: inherit;
+  font-size: 0.84rem;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.toggle-card:hover {
+  border-color: var(--border-strong);
+}
+
+.toggle-card.is-active {
+  border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+  background: var(--accent-wash);
+  color: var(--text);
+}
+
+.toggle-card-icon {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  background: var(--track);
+}
+
+.toggle-card.is-active .toggle-card-icon {
+  background: color-mix(in srgb, var(--accent) 18%, transparent);
+  color: var(--accent-deep);
+}
+
+:root[data-theme="dark"] .toggle-card.is-active .toggle-card-icon {
+  color: var(--accent-bright);
+}
+
+.toggle-card-text {
+  display: grid;
+  gap: 2px;
+  flex: 1;
+  min-width: 0;
+}
+
+.toggle-card-text .faint {
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+
+.toggle-card-check {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  border-radius: 6px;
+  border: 1px solid var(--border-strong);
+  color: var(--on-accent);
+}
+
+.toggle-card.is-active .toggle-card-check {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.device-row {
+  display: grid;
+  gap: 10px;
+}
+
+.device-row.is-active {
+  padding-bottom: 6px;
+}
+
+.device-camera {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  padding: 0 0 0 16px;
+  margin-left: 14px;
+  border-left: 2px solid color-mix(in srgb, var(--accent) 35%, transparent);
+}
+
+.device-camera > svg {
+  margin-top: 30px;
+  flex-shrink: 0;
+}
+
+.level {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 1px 8px;
+  border-radius: 999px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  vertical-align: 1px;
+  background: var(--track);
+  color: var(--text-dim);
+}
+
+.level-essential {
+  background: color-mix(in srgb, var(--accent) 16%, transparent);
+  color: var(--accent-deep);
+}
+
+.level-advanced {
+  background: color-mix(in srgb, var(--violet) 16%, transparent);
+  color: var(--violet);
+}
+
+:root[data-theme="dark"] .level-essential {
+  color: var(--accent-bright);
+}
+
+/* Charts, tiles and relays ---------------------------------------- */
+.chart-grid {
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  align-items: start;
+}
+
+.chart-wide {
+  grid-column: 1 / -1;
+}
+
+.metric-note {
+  margin-top: 2px;
+  font-size: 0.75rem;
+}
+
+.actuator-held {
+  border-color: color-mix(in srgb, var(--amber) 45%, transparent);
+  background: color-mix(in srgb, var(--amber) 7%, transparent);
+}
+
+.pill-warn {
+  border-color: color-mix(in srgb, var(--amber) 50%, transparent);
+  background: color-mix(in srgb, var(--amber) 14%, transparent);
+  color: #b45309;
+}
+
+:root[data-theme="dark"] .pill-warn {
+  color: var(--amber);
+}
+
+.target-group {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+}
+
+.target-group legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.rule-list {
+  display: grid;
+  gap: 8px;
+}
+
+.rule-row {
+  display: grid;
+  grid-template-columns: 18px 172px minmax(0, 1fr);
+  gap: 10px;
+  align-items: baseline;
+  font-size: 0.84rem;
+}
+
+.rule-row svg {
+  color: var(--text-faint);
+  align-self: center;
+}
+
+/* Alerts ----------------------------------------------------------- */
+.alert-list {
+  display: grid;
+  gap: 10px;
+}
+
+.alert-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid color-mix(in srgb, var(--amber) 42%, transparent);
+  background: color-mix(in srgb, var(--amber) 9%, transparent);
+  font-size: 0.86rem;
+}
+
+.alert-item > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+  color: var(--amber);
+}
+
+.alert-item div {
+  display: grid;
+  gap: 2px;
+}
+
+.alert-item span {
+  color: var(--text-dim);
+}
+
+.alert-danger {
+  border-color: color-mix(in srgb, var(--rose) 45%, transparent);
+  background: color-mix(in srgb, var(--rose) 9%, transparent);
+}
+
+.alert-danger > svg {
+  color: var(--rose);
+}
+
+.facility-alerts {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  background: var(--surface-solid);
+  color: #b45309;
+  box-shadow: var(--shadow);
+}
+
+:root[data-theme="dark"] .facility-alerts {
+  color: var(--amber);
+}
+
+/* Speed breeding page ----------------------------------------------- */
+.sensor-strip {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.sensor-chip {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 8px;
+  align-items: center;
+  padding: 9px 11px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  font-size: 0.74rem;
+}
+
+.sensor-chip .faint {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.sensor-chip strong {
+  grid-column: 1 / -1;
+  font-size: 0.98rem;
+}
+
+.sensor-chip small {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--text-faint);
+}
+
+.sensor-chip.is-missing {
+  opacity: 0.55;
+}
+
+.running-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Phenotyping ------------------------------------------------------- */
+.station-grid {
+  grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+}
+
+.station-card {
+  display: grid;
+  gap: 16px;
+  padding: 22px;
+}
+
+.device-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.device-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  border: 1px dashed var(--border-strong);
+  color: var(--text-faint);
+  opacity: 0.6;
+}
+
+.device-icon.is-fitted {
+  border-style: solid;
+  border-color: color-mix(in srgb, var(--cyan) 45%, transparent);
+  background: color-mix(in srgb, var(--cyan) 12%, transparent);
+  color: var(--cyan);
+  opacity: 1;
+}
+
+.station-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--border);
+  font-size: 0.86rem;
+}
+
+.station-stats span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.device-grid {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.device-card {
+  display: grid;
+  gap: 8px;
+  align-content: start;
+  padding: 18px;
+  --tone: var(--text-faint);
+}
+
+.device-card.is-fitted {
+  --tone: var(--cyan);
+}
+
+.device-card:not(.is-fitted) {
+  opacity: 0.72;
+}
+
+.device-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-dim);
+}
+
+.device-card.is-fitted .device-status {
+  color: var(--cyan);
+}
+
+.device-use {
+  font-size: 0.76rem;
+}
+
+.chip-derived {
+  border-style: dashed;
+}
+
+table.data th.th-derived,
+table.data td.td-derived {
+  background: color-mix(in srgb, var(--violet) 6%, transparent);
+}
+
+.measure-table td:last-child {
+  white-space: nowrap;
+}
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  font-size: 0.86rem;
+  cursor: pointer;
+}
+
+.check-row input {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--accent);
+}
+
+.image-fill {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px dashed color-mix(in srgb, var(--cyan) 50%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--cyan) 6%, transparent);
+}
+
+.image-fill > div:first-child {
+  display: grid;
+  gap: 2px;
+  font-size: 0.86rem;
+}
+
+.more-traits summary {
+  cursor: pointer;
+  font-size: 0.84rem;
+  color: var(--text-dim);
+}
+
+@media (max-width: 980px) {
+  .room-body-camera {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .room-camera {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .camera-fields-main,
+  .chart-grid,
+  .camera-grid,
+  .station-grid {
+    grid-template-columns: 1fr;
+  }
+  .rule-row {
+    grid-template-columns: 18px minmax(0, 1fr);
+  }
+  .rule-row .faint {
+    grid-column: 2;
+  }
+  .device-camera {
+    margin-left: 4px;
+    padding-left: 10px;
+  }
+}
+
+/* Reference tables are short; show them whole instead of in a scroll box. */
+.table-scroll:has(> .measure-table) {
+  max-height: none;
+}

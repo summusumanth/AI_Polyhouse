@@ -1,0 +1,27 @@
+# MediaMTX settings for the Polyhouse RTSP camera gateway.
+# Anything not set here keeps MediaMTX's default. docker-compose.yml mounts
+# this file and sets the addresses through MTX_* environment variables.
+
+# The server registers cameras through the control API. MediaMTX normally
+# allows the API from 127.0.0.1 only, but through Docker's port mapping the
+# server's calls arrive from the Docker gateway (172.x, or 192.168.65.x on
+# Docker Desktop). docker-compose.yml publishes the API port on 127.0.0.1
+# only, so nothing else on the network can reach it.
+authInternalUsers:
+  # Anyone may watch (read). The camera addresses and passwords stay in here.
+  - user: any
+    pass:
+    ips: []
+    permissions:
+      - action: read
+      - action: playback
+  # The API, from this computer and Docker's own networks only.
+  - user: any
+    pass:
+    ips: ['127.0.0.1', '::1', '172.16.0.0/12', '192.168.65.0/24', '10.0.0.0/8']
+    permissions:
+      - action: api
+      - action: metrics
+
+# Cameras are added by the server at run time; none are fixed here.
+paths: {}
