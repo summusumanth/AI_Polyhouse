@@ -31,5 +31,27 @@ services:
       mongo:
         condition: service_healthy
 
+  # RTSP gateway. A browser cannot decode RTSP, so MediaMTX re-publishes each
+  # camera as WebRTC (low latency, for live viewing) and HLS (a fallback).
+  # Camera credentials stay in the server's camera records and inside this
+  # container; the browser only ever receives the gateway URL.
+  mediamtx:
+    image: bluenviron/mediamtx:1.9.3
+    container_name: polyhouse-mediamtx
+    restart: unless-stopped
+    ports:
+      - "8554:8554" # RTSP in
+      - "8889:8889" # WebRTC out (WHEP)
+      - "8888:8888" # HLS out
+      - "9997:9997" # control API, used by the server to add and remove cameras
+    environment:
+      MTX_API: "yes"
+      MTX_APIADDRESS: :9997
+      MTX_RTSPADDRESS: :8554
+      MTX_WEBRTCADDRESS: :8889
+      MTX_HLSADDRESS: :8888
+      MTX_WEBRTCADDITIONALHOSTS: 127.0.0.1
+      MTX_PROTOCOLS: tcp
+
 volumes:
   mongo-data:

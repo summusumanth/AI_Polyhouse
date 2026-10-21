@@ -1,0 +1,270 @@
+/* ----------------------------------------------------------------
+   Illustration palette
+   Facility scenes are SVG drawn from these tokens, so they recolour
+   with the theme instead of being fixed images.
+   ---------------------------------------------------------------- */
+:root,
+:root[data-theme="light"] {
+  --art-sky-top: #dff3e8;
+  --art-sky-bottom: #f6fbf8;
+  --art-ground: #cfe6d7;
+  --art-soil: #9a7653;
+  --art-frame: #6f8f82;
+  --art-frame-dark: #476459;
+  --art-film: rgba(255, 255, 255, 0.3);
+  --art-film-edge: rgba(16, 140, 100, 0.45);
+  --art-leaf: #1f9d66;
+  --art-leaf-2: #4cc38a;
+  --art-leaf-3: #0f7a52;
+  --art-fruit: #e5484d;
+  --art-wheat: #d9a441;
+  --art-wheat-2: #b9832a;
+  --art-metal: #e4ebe7;
+  --art-metal-2: #c8d5ce;
+  --art-metal-edge: #93a89e;
+  --art-glass: rgba(14, 165, 233, 0.1);
+  --art-interior: #e9f3ee;
+  --art-led: #fff4c2;
+  --art-led-glow: rgba(255, 236, 160, 0.55);
+  --art-sb-room: #2a1f3d;
+  --art-sb-room-2: #3b2a55;
+  --art-sb-led: #f0abfc;
+  --art-sb-glow: rgba(232, 121, 249, 0.42);
+  --art-sun: #fbbf24;
+  --art-cloud: rgba(255, 255, 255, 0.9);
+  --art-screen: #0f2a20;
+  --art-screen-text: #6ee7b7;
+  --art-wall: #eef4f0;
+  --art-wall-2: #e2ece6;
+  --art-ink: #24433a;
+  --art-scan: rgba(14, 165, 233, 0.55);
+}
+
+:root[data-theme="dark"] {
+  --art-sky-top: #0c2a1e;
+  --art-sky-bottom: #07160f;
+  --art-ground: #10301f;
+  --art-soil: #5c4630;
+  --art-frame: #4d7364;
+  --art-frame-dark: #335247;
+  --art-film: rgba(110, 231, 183, 0.08);
+  --art-film-edge: rgba(110, 231, 183, 0.4);
+  --art-leaf: #22b574;
+  --art-leaf-2: #4ade80;
+  --art-leaf-3: #15803d;
+  --art-fruit: #f87171;
+  --art-wheat: #e7b54d;
+  --art-wheat-2: #c48c2e;
+  --art-metal: #1d3229;
+  --art-metal-2: #274236;
+  --art-metal-edge: #3f6252;
+  --art-glass: rgba(56, 189, 248, 0.08);
+  --art-interior: #0c1d16;
+  --art-led: #fff4c2;
+  --art-led-glow: rgba(255, 236, 160, 0.32);
+  --art-sb-room: #150f22;
+  --art-sb-room-2: #241838;
+  --art-sb-led: #f0abfc;
+  --art-sb-glow: rgba(232, 121, 249, 0.36);
+  --art-sun: #fbbf24;
+  --art-cloud: rgba(200, 230, 215, 0.16);
+  --art-screen: #04110b;
+  --art-screen-text: #6ee7b7;
+  --art-wall: #0b1a14;
+  --art-wall-2: #0f2219;
+  --art-ink: #b9d7c9;
+  --art-scan: rgba(56, 189, 248, 0.6);
+}
+
+.art {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Fills ---------------------------------------------------------- */
+.art .f-ground { fill: var(--art-ground); }
+.art .f-soil { fill: var(--art-soil); }
+.art .f-frame { fill: var(--art-frame); }
+.art .f-film { fill: var(--art-film); stroke: var(--art-film-edge); stroke-width: 1.4; }
+.art .f-leaf { fill: var(--art-leaf); }
+.art .f-leaf2 { fill: var(--art-leaf-2); }
+.art .f-leaf3 { fill: var(--art-leaf-3); }
+.art .f-fruit { fill: var(--art-fruit); }
+.art .f-wheat { fill: var(--art-wheat); }
+.art .f-wheat2 { fill: var(--art-wheat-2); }
+.art .f-metal { fill: var(--art-metal); stroke: var(--art-metal-edge); stroke-width: 1.2; }
+.art .f-metal2 { fill: var(--art-metal-2); }
+.art .f-glass { fill: var(--art-glass); stroke: var(--art-metal-edge); stroke-width: 1; }
+.art .f-interior { fill: var(--art-interior); }
+.art .f-led { fill: var(--art-led); }
+.art .f-sbled { fill: var(--art-sb-led); }
+.art .f-sun { fill: var(--art-sun); }
+.art .f-cloud { fill: var(--art-cloud); }
+.art .f-screen { fill: var(--art-screen); }
+.art .f-wall { fill: var(--art-wall); }
+.art .f-wall2 { fill: var(--art-wall-2); }
+.art .f-accent { fill: var(--accent); }
+
+/* Strokes -------------------------------------------------------- */
+.art .s-stem { stroke: var(--art-leaf-3); stroke-width: 1.6; stroke-linecap: round; fill: none; }
+.art .s-wheat { stroke: var(--art-wheat-2); stroke-width: 1.3; stroke-linecap: round; fill: none; }
+.art .s-frame { stroke: var(--art-frame); stroke-width: 1.6; fill: none; }
+.art .s-rib { stroke: var(--art-film-edge); stroke-width: 1.1; fill: none; }
+.art .s-sun { stroke: var(--art-sun); stroke-width: 2; stroke-linecap: round; }
+.art .s-ink { stroke: var(--art-ink); stroke-width: 1.2; fill: none; }
+.art .s-accent { stroke: var(--accent); stroke-width: 1.4; fill: none; }
+.art .s-scan { stroke: var(--art-scan); stroke-width: 1.4; fill: none; }
+.art .s-dash { stroke-dasharray: 3 3; }
+
+.art .t-screen {
+  fill: var(--art-screen-text);
+  font-family: var(--mono);
+  font-size: 7px;
+  font-weight: 600;
+}
+
+.art .t-ink {
+  fill: var(--art-ink);
+  font-family: var(--mono);
+  font-size: 6.5px;
+}
+
+/* ----------------------------------------------------------------
+   Scene motion
+   transform-box: fill-box makes each element pivot around its own
+   bounds, which SVG does not do by default.
+   ---------------------------------------------------------------- */
+.art-animated .a-sway {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: art-sway 4.2s ease-in-out infinite;
+}
+
+.art-animated .a-spin {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: art-spin 1.6s linear infinite;
+}
+
+.art-animated .a-spin-slow {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: art-spin 26s linear infinite;
+}
+
+.art-animated .a-glow {
+  animation: art-glow 2.8s ease-in-out infinite;
+}
+
+.art-animated .a-blink {
+  animation: art-blink 1.6s steps(2, jump-none) infinite;
+}
+
+.art-animated .a-drift {
+  animation: art-drift 16s ease-in-out infinite alternate;
+}
+
+.art-animated .a-drop {
+  animation: art-drop 1.8s ease-in infinite;
+}
+
+.art-animated .a-gantry {
+  animation: art-gantry 7s ease-in-out infinite alternate;
+}
+
+.art-animated .a-scanline {
+  animation: art-scanline 2.4s ease-in-out infinite;
+}
+
+.art-animated .a-rise {
+  animation: art-rise 3.4s ease-out infinite;
+}
+
+.art-animated .a-wave {
+  animation: art-wave 2.2s ease-out infinite;
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+}
+
+.art-animated .a-flow {
+  stroke-dasharray: 5 7;
+  animation: art-flow 1.1s linear infinite;
+}
+
+@keyframes art-sway {
+  0%, 100% { transform: rotate(-2.5deg); }
+  50% { transform: rotate(2.5deg); }
+}
+
+@keyframes art-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes art-glow {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes art-blink {
+  0% { opacity: 1; }
+  100% { opacity: 0.15; }
+}
+
+@keyframes art-drift {
+  from { transform: translateX(-10px); }
+  to { transform: translateX(14px); }
+}
+
+@keyframes art-drop {
+  0% { transform: translateY(-4px); opacity: 0; }
+  20% { opacity: 1; }
+  100% { transform: translateY(10px); opacity: 0; }
+}
+
+@keyframes art-gantry {
+  from { transform: translateX(0); }
+  to { transform: translateX(150px); }
+}
+
+@keyframes art-scanline {
+  0% { transform: translateY(0); opacity: 0; }
+  15% { opacity: 1; }
+  85% { opacity: 1; }
+  100% { transform: translateY(70px); opacity: 0; }
+}
+
+@keyframes art-rise {
+  0% { transform: translateY(6px); opacity: 0; }
+  30% { opacity: 1; }
+  100% { transform: translateY(-22px); opacity: 0; }
+}
+
+@keyframes art-wave {
+  0% { opacity: 0.9; transform: scale(0.4); }
+  100% { opacity: 0; transform: scale(1.4); }
+}
+
+@keyframes art-flow {
+  to { stroke-dashoffset: -24; }
+}
+
+/* Speed breeding scene with the phenotyping rig inset. */
+.breeding-art {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.breeding-art-inset {
+  position: absolute;
+  right: 4%;
+  bottom: 7%;
+  width: 40%;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 2px solid var(--surface-solid);
+  box-shadow: 0 14px 30px -12px rgba(0, 0, 0, 0.55);
+}

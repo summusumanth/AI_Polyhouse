@@ -1,0 +1,483 @@
+/* ----------------------------------------------------------------
+   Navbar account button
+   ---------------------------------------------------------------- */
+.nav-account {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 8px 4px 4px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: transparent;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.2s var(--ease), border-color 0.2s var(--ease);
+}
+
+.nav-account:hover {
+  background: var(--accent-wash);
+  border-color: var(--border);
+}
+
+.nav-account-text {
+  display: grid;
+  line-height: 1.25;
+  font-size: 0.86rem;
+  white-space: nowrap;
+}
+
+.nav-account-text .faint {
+  font-size: 0.74rem;
+}
+
+.avatar-lg {
+  width: 48px;
+  height: 48px;
+  font-size: 1rem;
+}
+
+.account-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  border: 1px solid var(--border);
+}
+
+.account-head > div {
+  display: grid;
+  gap: 2px;
+}
+
+/* "View only" tag on dashboard cards */
+.access-pill {
+  font-size: 0.68rem;
+  padding: 3px 9px;
+  flex-shrink: 0;
+}
+
+/* ----------------------------------------------------------------
+   Team: areas
+   ---------------------------------------------------------------- */
+.area-grid {
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 14px;
+}
+
+.area-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 0;
+  border-left: 3px solid var(--accent);
+}
+
+.area-card.is-selected {
+  border-color: var(--accent);
+  box-shadow: var(--shadow-glow);
+}
+
+.area-card-main {
+  flex: 1;
+  display: grid;
+  gap: 4px;
+  padding: 16px 18px;
+  border: none;
+  background: transparent;
+  text-align: left;
+  cursor: pointer;
+}
+
+.area-card .btn-icon {
+  margin: 10px 10px 0 0;
+}
+
+.area-stats {
+  display: flex;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 0.82rem;
+  color: var(--text-dim);
+}
+
+.area-stats strong {
+  font-family: var(--mono);
+  color: var(--text);
+}
+
+/* ----------------------------------------------------------------
+   Team: people
+   ---------------------------------------------------------------- */
+.people {
+  display: grid;
+  gap: 10px;
+}
+
+.person {
+  display: grid;
+  grid-template-columns: minmax(200px, 1.3fr) minmax(140px, 0.8fr) minmax(0, 2fr) auto;
+  align-items: center;
+  gap: 18px;
+  padding: 14px 18px;
+}
+
+.person-id {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+.person-role {
+  display: grid;
+  gap: 4px;
+  justify-items: start;
+  font-size: 0.82rem;
+}
+
+.person-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: flex-end;
+}
+
+.role-badge {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+  color: var(--text-dim);
+}
+
+.role-super_admin {
+  background: color-mix(in srgb, var(--violet) 14%, transparent);
+  border-color: color-mix(in srgb, var(--violet) 35%, transparent);
+  color: var(--violet);
+}
+
+.role-area_admin {
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
+  border-color: color-mix(in srgb, var(--accent) 35%, transparent);
+  color: var(--accent-deep);
+}
+
+:root[data-theme="dark"] .role-area_admin {
+  color: var(--accent-bright);
+}
+
+.access-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.access-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+}
+
+.access-chip small {
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.access-operate {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: var(--accent-wash);
+}
+
+.access-operate small {
+  color: var(--accent-deep);
+}
+
+:root[data-theme="dark"] .access-operate small {
+  color: var(--accent-bright);
+}
+
+.access-view small {
+  color: var(--cyan);
+}
+
+.access-all {
+  color: var(--text-dim);
+  font-style: italic;
+}
+
+/* ----------------------------------------------------------------
+   Access picker: No access / View / Operate per facility
+   ---------------------------------------------------------------- */
+.access-picker {
+  display: grid;
+  gap: 8px;
+  max-height: 340px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.access-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--input-bg);
+  transition: border-color 0.2s var(--ease), background 0.2s var(--ease);
+}
+
+.access-row.has-access {
+  border-color: color-mix(in srgb, var(--accent) 40%, transparent);
+  background: var(--accent-wash);
+}
+
+.access-name {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-size: 0.88rem;
+}
+
+.segmented {
+  display: inline-flex;
+  flex-shrink: 0;
+  padding: 3px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--surface-solid);
+}
+
+.segment {
+  padding: 5px 12px;
+  border: none;
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.78rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.segment:hover {
+  color: var(--text);
+}
+
+.segment.is-active.segment-none {
+  background: var(--track);
+  color: var(--text);
+}
+
+.segment.is-active.segment-view {
+  background: var(--cyan);
+  color: #fff;
+}
+
+.segment.is-active.segment-operate {
+  background: var(--accent-deep);
+  color: #fff;
+}
+
+select.input {
+  appearance: auto;
+}
+
+@media (max-width: 900px) {
+  .person {
+    grid-template-columns: 1fr auto;
+  }
+  .person-role {
+    grid-column: 1;
+  }
+  .person-access {
+    grid-column: 1 / -1;
+  }
+  .person-actions {
+    grid-column: 2;
+    grid-row: 1;
+  }
+}
+
+@media (max-width: 560px) {
+  .access-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .segmented {
+    justify-content: space-between;
+  }
+}
+
+/* With the Team link and "Area admin · <area>" the full menu needs ~1080px.
+   Between the hamburger breakpoint (960px) and 1180px, show just the avatar;
+   its tooltip and the account panel still give the name and role. */
+@media (max-width: 1180px) {
+  .nav-desktop .nav-account-text {
+    display: none;
+  }
+}
+
+/* ----------------------------------------------------------------
+   Password fields
+   The toggle sits inside the field and the input reserves room for it,
+   so typed characters never slide underneath the button.
+   ---------------------------------------------------------------- */
+.password-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-password {
+  padding-right: 46px;
+  /* A fixed colour, because Chrome's autofill repaints the field and can
+     otherwise leave dark text on its own dark background. */
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+
+.input-password::-ms-reveal,
+.input-password::-ms-clear {
+  display: none; /* Edge adds its own eye; we provide an accessible one. */
+}
+
+/* Chrome paints autofilled inputs itself. A long inset shadow is the only
+   reliable way to keep our background, and the text colour must be pinned. */
+.input-password:-webkit-autofill,
+.input-password:-webkit-autofill:hover,
+.input-password:-webkit-autofill:focus,
+.input:-webkit-autofill {
+  -webkit-text-fill-color: var(--text);
+  caret-color: var(--text);
+  -webkit-box-shadow: 0 0 0 1000px var(--input-bg-focus) inset;
+  box-shadow: 0 0 0 1000px var(--input-bg-focus) inset;
+  transition: background-color 9999s ease-in-out 0s;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 5px;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 9px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: background 0.2s var(--ease), color 0.2s var(--ease);
+}
+
+.password-toggle:hover {
+  background: var(--accent-wash);
+  color: var(--text);
+}
+
+.password-toggle:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+}
+
+.input-error,
+.input-error:focus {
+  border-color: var(--rose);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--rose) 18%, transparent);
+}
+
+.field-error {
+  font-size: 0.8rem;
+  color: var(--rose);
+}
+
+.strength {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  font-size: 0.78rem;
+}
+
+.strength-bars {
+  display: flex;
+  gap: 4px;
+  flex: 1;
+  max-width: 160px;
+}
+
+.strength-bar {
+  flex: 1;
+  height: 4px;
+  border-radius: 999px;
+  transition: background 0.3s var(--ease);
+}
+
+.notice {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--input-bg);
+}
+
+.notice > svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.notice p {
+  margin-top: 4px;
+  font-size: 0.86rem;
+}
+
+.notice-warn {
+  border-color: color-mix(in srgb, var(--amber) 40%, transparent);
+  background: color-mix(in srgb, var(--amber) 10%, transparent);
+}
+
+.notice-warn > svg {
+  color: var(--amber);
+}
+
+/* The auth card must scroll on a short screen (the forced password form is
+   taller than a phone in landscape). */
+.auth {
+  align-items: flex-start;
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+/* Four levels (None / View / Operate / Manage) need a little more room. */
+.segment {
+  padding: 5px 11px;
+}
+
+.access-manage {
+  border-color: color-mix(in srgb, var(--violet) 40%, transparent);
+  background: color-mix(in srgb, var(--violet) 10%, transparent);
+}
+
+.access-manage small {
+  color: var(--violet);
+}
+
+.segment.is-active.segment-manage {
+  background: var(--violet);
+  color: #fff;
+}
